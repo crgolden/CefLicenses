@@ -25,7 +25,7 @@ let routerLinkDebugElements: DebugElement[];
 let featuresService: FeaturesService;
 let router: Router;
 
-@Component({ selector: 'app-router-outlet', template: '' })
+@Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
 describe('EditComponent', () => {

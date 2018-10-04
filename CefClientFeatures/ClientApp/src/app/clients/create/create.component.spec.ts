@@ -20,7 +20,7 @@ let routerLinkDebugElements: DebugElement[];
 let clientsService: ClientsService;
 let router: Router;
 
-@Component({ selector: 'app-router-outlet', template: '' })
+@Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
 describe('CreateComponent', () => {

@@ -27,7 +27,7 @@ let page: IndexPage;
 let routerLinks: RouterLinkDirectiveStub[];
 let routerLinkDebugElements: DebugElement[];
 
-@Component({ selector: 'app-router-outlet', template: '' })
+@Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
 describe('IndexComponent', () => {
