@@ -12,6 +12,10 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 
 import { AppService } from './app.service';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 @NgModule({
   declarations: [
@@ -30,7 +34,9 @@ import { AppService } from './app.service';
     ]),
     AccountModule,
     ClientsModule,
-    FeaturesModule
+    FeaturesModule,
+    GridModule,
+    BrowserAnimationsModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]

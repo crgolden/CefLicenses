@@ -4,6 +4,8 @@
     using System.Threading.Tasks;
     using Interfaces;
     using Models;
+    using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -23,10 +25,10 @@
         }
 
         [HttpGet]
-        public virtual IActionResult Index()
+        public virtual IActionResult Index([DataSourceRequest] DataSourceRequest request = null)
         {
             var models = _service.Index();
-            return Ok(models);
+            return request != null ? Ok(models.ToDataSourceResult(request)) : Ok(models);
         }
 
         [HttpGet("{id:guid}")]

@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Interfaces;
     using Models;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -16,9 +17,9 @@
 
         [HttpGet]
         [Authorize(Policy = "ClientIndex")]
-        public override IActionResult Index()
+        public override IActionResult Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            return base.Index();
+            return base.Index(request);
         }
 
         [HttpGet("{id:guid}")]
