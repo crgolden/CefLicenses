@@ -27,7 +27,7 @@ export class AccountService extends AppService {
     return this.http
       .post<string>('/api/v1/Account/Login', body, options)
       .pipe(map(
-        res => {
+        (res: string) => {
           this.setToken(res);
           this.setExpiration(new Date());
           this.isLoggedIn.emit(true);
