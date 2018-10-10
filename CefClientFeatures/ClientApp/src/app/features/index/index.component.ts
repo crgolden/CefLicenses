@@ -10,12 +10,12 @@ import { Feature } from '../../models/feature';
 })
 export class IndexComponent implements OnInit {
 
-  features: Feature[] = [];
+  features = new Array<Feature>();
 
   constructor(private readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.features = this.route.snapshot.data['features'];
+    this.features = this.route.snapshot.data['features'] as Array<Feature>;
   }
 }

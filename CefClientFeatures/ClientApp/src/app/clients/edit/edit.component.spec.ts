@@ -11,7 +11,7 @@ import { RouterLinkDirectiveStub } from '../../../test/router-link-directive-stu
 import { EditPage } from '../../../test/page-models/clients/edit-page';
 import { EditComponent } from './edit.component';
 import { Client } from '../../models/client';
-import { ClientsService } from '../clients.service';
+import { ClientsService } from '../../services/clients.service';
 
 const client: Client = {
   id: '1',
@@ -25,6 +25,7 @@ let routerLinkDebugElements: DebugElement[];
 let clientsService: ClientsService;
 let router: Router;
 
+/* tslint:disable-next-line:component-selector */
 @Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 

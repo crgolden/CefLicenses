@@ -1,7 +1,6 @@
-import { ClientFeature } from './clientFeature';
+import { BaseModel } from './base-model';
+import { ClientFeature } from './client-feature';
 
-export class Client {
-  id?: string;
-  name?: string;
+export class Client extends BaseModel {
   clientFeatures?: Array<ClientFeature>;
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ClientsService } from '../clients.service';
+import { ClientsService } from '../../services/clients.service';
 import { Client } from '../../models/client';
 
 @Component({
@@ -19,18 +19,14 @@ export class CreateComponent {
     private readonly router: Router) {
   }
 
-  create(valid: boolean) {
+  create(valid: boolean): void {
     if (!valid) {
       return;
     }
     this.clientsService
       .create(this.model)
       .subscribe(
-        (client: string | Client) => {
-          if (typeof client !== 'string') {
-            this.router.navigate([`/Clients/Details/${client.id}`]);
-          }
-        },
+        (client: Client) => this.router.navigate([`/Clients/Details/${client.id}`]),
         (error: string) => this.errors = error);
   }
 }

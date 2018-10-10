@@ -19,7 +19,7 @@ export class LoginComponent {
     private readonly router: Router) {
   }
 
-  login(valid: boolean) {
+  login(valid: boolean): void {
     if (!valid) {
       return;
     }

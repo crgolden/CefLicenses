@@ -10,10 +10,10 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { DeleteComponent } from './delete/delete.component';
 
-import { ClientsService } from './clients.service';
+import { ClientsService } from '../services/clients.service';
 import { AppCanActivate } from '../app.can-activate';
-import { IndexResolver } from './index/index.resolver';
-import { DetailsResolver } from './details/details.resolver';
+import { ClientsResolver } from '../resolvers/clients.resolver';
+import { ClientResolver } from '../resolvers/client.resolver';
 
 @NgModule({
   imports: [
@@ -24,13 +24,13 @@ import { DetailsResolver } from './details/details.resolver';
       {
         path: 'Clients',
         component: IndexComponent,
-        resolve: { clients: IndexResolver },
+        resolve: { clients: ClientsResolver },
         canActivate: [AppCanActivate]
       },
       {
         path: 'Clients/Details/:id',
         component: DetailsComponent,
-        resolve: { client: DetailsResolver },
+        resolve: { client: ClientResolver },
         canActivate: [AppCanActivate]
       },
       {
@@ -41,13 +41,13 @@ import { DetailsResolver } from './details/details.resolver';
       {
         path: 'Clients/Edit/:id',
         component: EditComponent,
-        resolve: { client: DetailsResolver },
+        resolve: { client: ClientResolver },
         canActivate: [AppCanActivate]
       },
       {
         path: 'Clients/Delete/:id',
         component: DeleteComponent,
-        resolve: { client: DetailsResolver },
+        resolve: { client: ClientResolver },
         canActivate: [AppCanActivate]
       }
     ])
@@ -62,8 +62,8 @@ import { DetailsResolver } from './details/details.resolver';
   providers: [
     ClientsService,
     AppCanActivate,
-    IndexResolver,
-    DetailsResolver
+    ClientsResolver,
+    ClientResolver
   ]
 })
 export class ClientsModule {

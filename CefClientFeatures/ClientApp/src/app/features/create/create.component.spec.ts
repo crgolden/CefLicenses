@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { RouterLinkDirectiveStub } from '../../../test/router-link-directive-stub';
 import { CreatePage } from '../../../test/page-models/features/create-page';
 import { CreateComponent } from './create.component';
-import { FeaturesService } from '../features.service';
+import { FeaturesService } from '../../services/features.service';
 
 let component: CreateComponent;
 let fixture: ComponentFixture<CreateComponent>;
@@ -20,6 +20,7 @@ let routerLinkDebugElements: DebugElement[];
 let featuresService: FeaturesService;
 let router: Router;
 
+/* tslint:disable-next-line:component-selector */
 @Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 

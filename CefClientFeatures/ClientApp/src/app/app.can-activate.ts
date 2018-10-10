@@ -10,7 +10,7 @@ export class AppCanActivate implements CanActivate {
     private readonly router: Router,
     private readonly accountService: AccountService) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
     if (this.accountService.hasToken()) {
       return true;

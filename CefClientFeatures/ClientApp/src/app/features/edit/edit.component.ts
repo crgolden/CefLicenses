@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { FeaturesService } from '../features.service';
+import { FeaturesService } from '../../services/features.service';
 import { Feature } from '../../models/feature';
 
 @Component({

@@ -10,10 +10,10 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { DeleteComponent } from './delete/delete.component';
 
-import { FeaturesService } from './features.service';
+import { FeaturesService } from '../services/features.service';
 import { AppCanActivate } from '../app.can-activate';
-import { IndexResolver } from './index/index.resolver';
-import { DetailsResolver } from './details/details.resolver';
+import { FeaturesResolver } from '../resolvers/features.resolver';
+import { FeatureResolver } from '../resolvers/feature.resolver';
 
 @NgModule({
   imports: [
@@ -24,13 +24,13 @@ import { DetailsResolver } from './details/details.resolver';
       {
         path: 'Features',
         component: IndexComponent,
-        resolve: { features: IndexResolver },
+        resolve: { features: FeaturesResolver },
         canActivate: [AppCanActivate]
       },
       {
         path: 'Features/Details/:id',
         component: DetailsComponent,
-        resolve: { feature: DetailsResolver },
+        resolve: { feature: FeatureResolver },
         canActivate: [AppCanActivate]
       },
       {
@@ -41,13 +41,13 @@ import { DetailsResolver } from './details/details.resolver';
       {
         path: 'Features/Edit/:id',
         component: EditComponent,
-        resolve: { feature: DetailsResolver },
+        resolve: { feature: FeatureResolver },
         canActivate: [AppCanActivate]
       },
       {
         path: 'Features/Delete/:id',
         component: DeleteComponent,
-        resolve: { feature: DetailsResolver },
+        resolve: { feature: FeatureResolver },
         canActivate: [AppCanActivate]
       }
     ])
@@ -62,8 +62,8 @@ import { DetailsResolver } from './details/details.resolver';
   providers: [
     FeaturesService,
     AppCanActivate,
-    IndexResolver,
-    DetailsResolver
+    FeaturesResolver,
+    FeatureResolver
   ]
 })
 export class FeaturesModule {

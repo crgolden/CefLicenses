@@ -1,10 +1,10 @@
 import { } from 'jasmine';
-import { defer as observableDefer } from 'rxjs';
+import { defer as observableDefer } from 'rxjs/index';
 
 import { ClientsService } from './clients.service';
 import { Client } from '../models/client';
 
-let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy, delete: jasmine.Spy };
+let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy; put: jasmine.Spy; delete: jasmine.Spy };
 let clientsService: ClientsService;
 let client1: Client;
 let client2: Client;

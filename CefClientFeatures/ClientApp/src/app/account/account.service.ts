@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { AppService } from '../app.service';
+import { AppService } from '../services/app.service';
 
 import { Login } from '../models/login';
 
@@ -20,26 +20,41 @@ export class AccountService extends AppService {
     this.setReturnUrlFromQueryParams();
   }
 
-  login(value: Login): Observable<string | boolean> {
+  login(value: Login): Observable<boolean> {
     const body = JSON.stringify(value);
     const options = { headers: this.getHeaders() };
 
     return this.http
       .post<string>('/api/v1/Account/Login', body, options)
       .pipe(map(
-        res => {
+        (res: string) => {
           this.setToken(res);
           this.setExpiration(new Date());
           this.isLoggedIn.emit(true);
           return true;
         }),
-        catchError(() => throwError(new Error('Invalid username or password'))));
+        catchError<boolean, never>(this.handleError));
   }
 
   logout(): void {
     this.removeToken();
     this.removeExpiration();
     this.isLoggedIn.emit(false);
+  }
+
+  hasToken(): boolean {
+    const token = this.getToken();
+    const expired = this.getExpiration().getTime() < Date.now();
+
+    return (typeof token === 'string' && token.length > 0 && !expired);
+  }
+
+  getReturnUrl(): string {
+    return this.returnUrl;
+  }
+
+  setReturnUrl(returnUrl: string): void {
+    this.returnUrl = returnUrl;
   }
 
   private setReturnUrlFromQueryParams(): void {
@@ -54,11 +69,44 @@ export class AccountService extends AppService {
     });
   }
 
-  setReturnUrl(returnUrl: string) {
-    this.returnUrl = returnUrl;
+  private getExpiration(): Date {
+    const expiration = new Date();
+    if (typeof window !== 'undefined') {
+      const expirationString = localStorage.getItem('expiration');
+      let expirationNumber = 0;
+      if (expirationString != null) {
+        expirationNumber = parseFloat(expirationString);
+      }
+      if (expirationNumber > 0) {
+        expiration.setTime(expirationNumber);
+      }
+    }
+    return expiration;
   }
 
-  getReturnUrl(): string {
-    return this.returnUrl;
+  private setExpiration(time: Date): void {
+    if (typeof window !== 'undefined') {
+      const expiration = time.getTime() + 30 * 60000;
+      localStorage.setItem('expiration', JSON.stringify(expiration));
+    }
   }
+
+  private removeExpiration(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('expiration');
+    }
+  }
+
+  private setToken(token: string): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('token', token);
+    }
+  }
+
+  private removeToken(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
+  }
+
 }

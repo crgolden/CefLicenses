@@ -14,7 +14,7 @@ export class RouterLinkDirectiveStub {
   @Input('routerLink') linkParams: any;
   navigatedTo: any = null;
 
-  onClick() {
+  onClick(): void {
     this.navigatedTo = this.linkParams;
   }
 }

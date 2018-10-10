@@ -1,10 +1,10 @@
 import { } from 'jasmine';
-import { defer } from 'rxjs';
+import { defer } from 'rxjs/index';
 
 import { FeaturesService } from './features.service';
 import { Feature } from '../models/feature';
 
-let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy, delete: jasmine.Spy };
+let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy; put: jasmine.Spy; delete: jasmine.Spy };
 let featuresService: FeaturesService;
 let feature1: Feature, feature2: Feature;
 

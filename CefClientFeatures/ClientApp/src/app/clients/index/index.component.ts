@@ -10,12 +10,12 @@ import { Client } from '../../models/client';
 })
 export class IndexComponent implements OnInit {
 
-  clients: Client[] = [];
+  clients = new Array<Client>();
 
   constructor(private readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.clients = this.route.snapshot.data['clients'];
+    this.clients = this.route.snapshot.data['clients'] as Array<Client>;
   }
 }

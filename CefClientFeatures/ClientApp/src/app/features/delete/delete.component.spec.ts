@@ -10,7 +10,7 @@ import { RouterLinkDirectiveStub } from '../../../test/router-link-directive-stu
 import { DeletePage } from '../../../test/page-models/features/delete-page';
 import { DeleteComponent } from './delete.component';
 import { Feature } from '../../models/feature';
-import { FeaturesService } from '../features.service';
+import { FeaturesService } from '../../services/features.service';
 
 const feature: Feature = {
   id: '1',
@@ -24,6 +24,7 @@ let routerLinkDebugElements: DebugElement[];
 let featuresService: FeaturesService;
 let router: Router;
 
+/* tslint:disable-next-line:component-selector */
 @Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
