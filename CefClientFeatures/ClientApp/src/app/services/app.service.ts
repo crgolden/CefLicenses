@@ -3,7 +3,7 @@ import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs/index';
 
 @Injectable()
-export class AppService {
+export abstract class AppService {
 
   @Output() isLoggedIn = new EventEmitter<boolean>();
 

@@ -6,6 +6,7 @@ namespace CefClientFeatures.Tests.Controllers
     using CefClientFeatures.Controllers;
     using Interfaces;
     using Models;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Moq;
@@ -21,7 +22,7 @@ namespace CefClientFeatures.Tests.Controllers
         {
             Setup();
             var controller = new SubController(_modelService.Object, _logger.Object);
-            var index = controller.Index();
+            var index = controller.Index(new DataSourceRequest());
             var result = Assert.IsType<OkObjectResult>(index);
             Assert.IsAssignableFrom<IEnumerable<BaseModel>>(result.Value);
         }

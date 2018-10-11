@@ -26,7 +26,7 @@ export class DeleteComponent implements OnInit {
 
   delete(): void {
     this.clientsService
-      .delete(this.model.id)
+      .delete(this.model.Id)
       .subscribe(
         () => this.router.navigate(['/Clients']),
         (error: string) => this.errors = error);

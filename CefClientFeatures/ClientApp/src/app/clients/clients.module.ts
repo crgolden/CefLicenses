@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { IndexComponent } from './index/index.component';
 import { DetailsComponent } from './details/details.component';
@@ -50,7 +52,9 @@ import { ClientResolver } from '../resolvers/client.resolver';
         resolve: { client: ClientResolver },
         canActivate: [AppCanActivate]
       }
-    ])
+    ]),
+    GridModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     IndexComponent,

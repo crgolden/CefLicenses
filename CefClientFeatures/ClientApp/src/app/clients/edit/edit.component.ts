@@ -31,7 +31,7 @@ export class EditComponent implements OnInit {
     this.clientsService
       .edit(this.model)
       .subscribe(
-        () => this.router.navigate([`/Clients/Details/${this.model.id}`]),
+        () => this.router.navigate([`/Clients/Details/${this.model.Id}`]),
         (error: string) => this.errors = error);
   }
 }

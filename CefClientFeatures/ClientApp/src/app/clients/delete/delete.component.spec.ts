@@ -13,8 +13,8 @@ import { Client } from '../../models/client';
 import { ClientsService } from '../../services/clients.service';
 
 const client: Client = {
-  id: '1',
-  name: 'Client 1'
+  Id: '1',
+  Name: 'Client 1'
 };
 let component: DeleteComponent;
 let fixture: ComponentFixture<DeleteComponent>;
@@ -33,12 +33,12 @@ describe('DeleteComponent', () => {
   beforeEach(() => setup());
 
   it('should have the client', () => {
-    expect(component.model.id).toBe(client.id);
-    expect(component.model.name).toBe(client.name);
+    expect(component.model.Id).toBe(client.Id);
+    expect(component.model.Name).toBe(client.Name);
   });
 
   it('should display client details', () => {
-    expect(page.name).toBe(component.model.name);
+    expect(page.name).toBe(component.model.Name);
   });
 
   it('should call delete and navigate on submit', () => {

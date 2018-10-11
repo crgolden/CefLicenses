@@ -11,8 +11,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 
-import { AppService } from './services/app.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +30,6 @@ import { AppService } from './services/app.service';
     ClientsModule,
     FeaturesModule
   ],
-  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

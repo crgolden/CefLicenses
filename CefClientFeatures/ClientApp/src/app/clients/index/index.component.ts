@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { DataSourceRequestState } from '@progress/kendo-data-query';
 
-import { Client } from '../../models/client';
+import { ClientsService } from '../../services/clients.service';
 
 @Component({
   selector: 'app-clients-index',
@@ -10,12 +12,23 @@ import { Client } from '../../models/client';
 })
 export class IndexComponent implements OnInit {
 
-  clients = new Array<Client>();
+  clients: GridDataResult;
+  state = {
+    skip: 0,
+    take: 5
+  } as DataSourceRequestState;
 
-  constructor(private readonly route: ActivatedRoute) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly clientsService: ClientsService) {
   }
 
   ngOnInit(): void {
-    this.clients = this.route.snapshot.data['clients'] as Array<Client>;
+    this.clients = this.route.snapshot.data['clients'] as GridDataResult;
+  }
+
+  dataStateChange(state: DataSourceRequestState): void {
+    this.state = state;
+    this.clientsService.index(state).subscribe(r => this.clients = r);
   }
 }

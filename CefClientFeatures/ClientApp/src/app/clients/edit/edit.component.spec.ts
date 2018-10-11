@@ -14,8 +14,8 @@ import { Client } from '../../models/client';
 import { ClientsService } from '../../services/clients.service';
 
 const client: Client = {
-  id: '1',
-  name: 'Client 1'
+  Id: '1',
+  Name: 'Client 1'
 };
 let component: EditComponent;
 let fixture: ComponentFixture<EditComponent>;
@@ -34,13 +34,13 @@ describe('EditComponent', () => {
   beforeEach(() => setup());
 
   it('should have the client', () => {
-    expect(component.model.id).toBe(client.id);
-    expect(component.model.name).toBe(client.name);
+    expect(component.model.Id).toBe(client.Id);
+    expect(component.model.Name).toBe(client.Name);
   });
 
   it('should display client details', () => {
     return fixture.whenStable().then(() => {
-      expect(page.name.value).toBe(component.model.name);
+      expect(page.name.value).toBe(component.model.Name);
     });
   });
 
@@ -88,7 +88,7 @@ function setup() {
       },
       {
         provide: Router,
-        useValue: jasmine.createSpyObj('Router', { navigate: of([`/Clients/Details/${client.id}`]) })
+        useValue: jasmine.createSpyObj('Router', { navigate: of([`/Clients/Details/${client.Id}`]) })
       },
       {
         provide: ClientsService,

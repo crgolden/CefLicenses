@@ -18,8 +18,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
-   
+    using Newtonsoft.Json.Serialization;
+
     public class Startup
     {
         private readonly IConfiguration _configuration;
@@ -48,11 +48,12 @@
             services.AddAuthentication(_configuration.GetSection(nameof(JwtOptions)));
             services.AddPolicies();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
-                .AddJsonOptions(setup => setup.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects)
+                .AddJsonOptions(setup => setup.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
             services.AddSwagger();
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

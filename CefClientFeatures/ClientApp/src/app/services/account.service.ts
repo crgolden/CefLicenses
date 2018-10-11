@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs/index';
+import { map, catchError } from 'rxjs/operators/index';
 
-import { AppService } from '../services/app.service';
+import { AppService } from './app.service';
 
 import { Login } from '../models/login';
 

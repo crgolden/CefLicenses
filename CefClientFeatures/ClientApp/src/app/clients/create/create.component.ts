@@ -26,7 +26,7 @@ export class CreateComponent {
     this.clientsService
       .create(this.model)
       .subscribe(
-        (client: Client) => this.router.navigate([`/Clients/Details/${client.id}`]),
+        (client: Client) => this.router.navigate([`/Clients/Details/${client.Id}`]),
         (error: string) => this.errors = error);
   }
 }

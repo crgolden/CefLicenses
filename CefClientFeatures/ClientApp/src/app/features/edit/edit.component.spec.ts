@@ -14,8 +14,8 @@ import { Feature } from '../../models/feature';
 import { FeaturesService } from '../../services/features.service';
 
 const feature: Feature = {
-  id: '1',
-  name: 'Feature 1'
+  Id: '1',
+  Name: 'Feature 1'
 };
 let component: EditComponent;
 let fixture: ComponentFixture<EditComponent>;
@@ -34,13 +34,13 @@ describe('EditComponent', () => {
   beforeEach(() => setup());
 
   it('should have the feature', () => {
-    expect(component.model.id).toBe(feature.id);
-    expect(component.model.name).toBe(feature.name);
+    expect(component.model.Id).toBe(feature.Id);
+    expect(component.model.Name).toBe(feature.Name);
   });
 
   it('should display feature details', () => {
     return fixture.whenStable().then(() => {
-      expect(page.name.value).toBe(component.model.name);
+      expect(page.name.value).toBe(component.model.Name);
     });
   });
 

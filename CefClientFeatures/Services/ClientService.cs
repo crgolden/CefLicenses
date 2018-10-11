@@ -1,12 +1,11 @@
-﻿using CefClientFeatures.Relationships;
-
-namespace CefClientFeatures.Services
+﻿namespace CefClientFeatures.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Models;
+    using Relationships;
     using Microsoft.EntityFrameworkCore;
 
     public class ClientService : BaseModelService<Client>
@@ -18,7 +17,6 @@ namespace CefClientFeatures.Services
             return Context
                 .Set<Client>()
                 .Include(x => x.ClientFeatures)
-                .ThenInclude(x => x.Model2)
                 .AsNoTracking();
         }
 
@@ -27,7 +25,6 @@ namespace CefClientFeatures.Services
             return await Context
                 .Set<Client>()
                 .Include(x => x.ClientFeatures)
-                .ThenInclude(x => x.Model2)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
         }

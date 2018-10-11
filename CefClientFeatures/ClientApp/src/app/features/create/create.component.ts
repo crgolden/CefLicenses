@@ -26,7 +26,7 @@ export class CreateComponent {
     this.featuresService
       .create(this.model)
       .subscribe(
-        (feature: Feature) => this.router.navigate([`/Features/Details/${feature.id}`]),
+        (feature: Feature) => this.router.navigate([`/Features/Details/${feature.Id}`]),
         (error: string) => this.errors = error);
   }
 }

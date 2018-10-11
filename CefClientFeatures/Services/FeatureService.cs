@@ -17,7 +17,6 @@
             return Context
                 .Set<Feature>()
                 .Include(x => x.ClientFeatures)
-                .ThenInclude(x => x.Model1)
                 .AsNoTracking();
         }
 
@@ -26,7 +25,6 @@
             return await Context
                 .Set<Feature>()
                 .Include(x => x.ClientFeatures)
-                .ThenInclude(x => x.Model1)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
         }

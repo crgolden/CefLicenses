@@ -29,8 +29,8 @@ describe('CreateComponent', () => {
   beforeEach(() => setup());
 
   it('should have a new client', () => {
-    expect(component.model.id).toBeUndefined();
-    expect(component.model.name).toBeUndefined();
+    expect(component.model.Id).toBeUndefined();
+    expect(component.model.Name).toBeUndefined();
   });
 
   it('should display blank inputs', () => {

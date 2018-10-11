@@ -1,27 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
-import { catchError } from 'rxjs/operators/index';
+import { map, catchError } from 'rxjs/operators/index';
+import {
+  toDataSourceRequestString,
+  translateDataSourceResultGroups,
+  DataSourceRequestState
+} from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { BaseModel } from '../models/base-model';
 import { AppService } from './app.service';
 
 @Injectable()
-export class BaseModelService<T extends BaseModel> extends AppService {
+export abstract class BaseModelService<T extends BaseModel> extends AppService {
 
   controllerName = '';
+  defaultState = {
+    skip: 0,
+    take: 5
+  } as DataSourceRequestState;
 
-  constructor(controllerName: string, protected readonly http: HttpClient) {
+  protected constructor(controllerName: string, protected readonly http: HttpClient) {
     super();
     this.controllerName = controllerName;
   }
 
-  index(): Observable<Array<T>> {
+  index(state: DataSourceRequestState = this.defaultState): Observable<GridDataResult> {
     const options = { headers: this.getHeaders() };
+    const queryStr = `${toDataSourceRequestString(state)}`;
+    const hasGroups = state.group && state.group.length > 0;
 
     return this.http
-      .get<T[]>(`/api/v1/${this.controllerName}/Index`, options)
-      .pipe(catchError<Array<T>, never>(this.handleError));
+      .get<any>(`/api/v1/${this.controllerName}/Index?${queryStr}`, options)
+      .pipe(
+        map((res: any) => ({
+          data: hasGroups ? translateDataSourceResultGroups(res.Data) : res.Data,
+          total: res.Total
+        } as GridDataResult)),
+        catchError<GridDataResult, never>(this.handleError));
   }
 
   details(id: string): Observable<T> {
@@ -46,7 +63,7 @@ export class BaseModelService<T extends BaseModel> extends AppService {
     const options = { headers: this.getHeaders() };
 
     return this.http
-      .put(`/api/v1/${this.controllerName}/Edit/${model.id}`, body, options)
+      .put(`/api/v1/${this.controllerName}/Edit/${model.Id}`, body, options)
       .pipe(catchError<Object, never>(this.handleError));
   }
 

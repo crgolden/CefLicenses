@@ -11,8 +11,8 @@ import { DetailsComponent } from './details.component';
 import { Feature } from '../../models/feature';
 
 const feature: Feature = {
-    id: '1',
-    name: 'Feature 1'
+    Id: '1',
+    Name: 'Feature 1'
   };
 let component: DetailsComponent;
 let fixture: ComponentFixture<DetailsComponent>;
@@ -29,18 +29,18 @@ describe('DetailsComponent', () => {
   beforeEach(() => setup());
 
   it('should have the feature', () => {
-    expect(component.model.id).toBe(feature.id);
-    expect(component.model.name).toBe(feature.name);
+    expect(component.model.Id).toBe(feature.Id);
+    expect(component.model.Name).toBe(feature.Name);
   });
 
   it('should display feature details', () => {
-    expect(page.name).toBe(component.model.name);
+    expect(page.name).toBe(component.model.Name);
   });
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(3, 'should have 3 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Features/Edit/${feature.id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Features/Delete/${feature.id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Features/Edit/${feature.Id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Features/Delete/${feature.Id}`);
     expect(routerLinks[2].linkParams).toBe('/Features');
   });
 
@@ -53,7 +53,7 @@ describe('DetailsComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Features/Edit/${feature.id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Features/Edit/${feature.Id}`);
   });
 
   it('can click Features/Delete/:featureId link in template', () => {
@@ -65,7 +65,7 @@ describe('DetailsComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Features/Delete/${feature.id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Features/Delete/${feature.Id}`);
   });
 
   it('can click Features link in template', () => {
