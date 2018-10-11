@@ -1,62 +1,47 @@
-<kendo-grid
-  [data]="clients"
-  [pageSize]="state.take"
-  [skip]="state.skip"
-  [sort]="state.sort"
-  [sortable]="true"
-  [pageable]="true"
-  [scrollable]="'scrollable'"
-  [groupable]="true"
-  [group]="state.group"
-  [filterable]="true"
-  [filter]="state.filter"
-  (dataStateChange)="dataStateChange($event)"
-  [height]="370">
-
-  <!-- columns declaration removed for brevity -->
-
-</kendo-grid>
 <div class="row">
-    <div class="col-sm-1 col-md-3"></div>
-    <div class="col-sm-10 col-md-6">
-        <h2>Clients</h2>
-        <hr />
-    </div>
-    <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <h2>Clients</h2>
+    <hr />
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
 </div>
 <div class="row">
-    <div class="col-sm-1 col-md-3"></div>
-    <div class="col-sm-10 col-md-6">
-        <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Client</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let client of clients">
-                        <td>
-                            <a routerLink="/Clients/Details/{{client.id}}">
-                                {{client.name}}
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <h4>
+      <a routerLink="/Clients/Create">
+        Create
+      </a>
+    </h4>
+    <hr />
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
 </div>
 <div class="row">
-    <div class="col-sm-1 col-md-3"></div>
-    <div class="col-sm-10 col-md-6">
-        <hr />
-        <h4>
-            <a routerLink="/Clients/Create">
-                Create
-            </a>
-        </h4>
-    </div>
-    <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <kendo-grid [data]="clients"
+                [pageSize]="state.take"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [sortable]="true"
+                [pageable]="true"
+                [scrollable]="'scrollable'"
+                [groupable]="false"
+                [group]="state.group"
+                [filterable]="false"
+                [filter]="state.filter"
+                (dataStateChange)="dataStateChange($event)"
+                [height]="370">
+      <kendo-grid-column field="Name" title="Name">
+        <ng-template kendoGridCellTemplate let-client>
+          <a routerLink="/Clients/Details/{{client.Id}}">
+            {{client.Name}}
+          </a>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
 </div>

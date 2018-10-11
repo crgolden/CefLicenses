@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLinkDirectiveStub } from '../../../test/router-link-directive-stub';
 import { CreatePage } from '../../../test/page-models/clients/create-page';
 import { CreateComponent } from './create.component';
-import { ClientsService } from '../clients.service';
+import { ClientsService } from '../../services/clients.service';
 import { of } from 'rxjs';
 
 let component: CreateComponent;
@@ -20,6 +20,7 @@ let routerLinkDebugElements: DebugElement[];
 let clientsService: ClientsService;
 let router: Router;
 
+/* tslint:disable-next-line:component-selector */
 @Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
@@ -28,8 +29,8 @@ describe('CreateComponent', () => {
   beforeEach(() => setup());
 
   it('should have a new client', () => {
-    expect(component.model.id).toBeUndefined();
-    expect(component.model.name).toBeUndefined();
+    expect(component.model.Id).toBeUndefined();
+    expect(component.model.Name).toBeUndefined();
   });
 
   it('should display blank inputs', () => {

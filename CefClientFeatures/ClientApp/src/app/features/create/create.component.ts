@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { FeaturesService } from '../features.service';
+import { FeaturesService } from '../../services/features.service';
 import { Feature } from '../../models/feature';
 
 @Component({
@@ -19,18 +19,14 @@ export class CreateComponent {
     private readonly router: Router) {
   }
 
-  create(valid: boolean) {
+  create(valid: boolean): void {
     if (!valid) {
       return;
     }
     this.featuresService
       .create(this.model)
       .subscribe(
-        (feature: string | Feature) => {
-          if (typeof feature !== 'string') {
-            this.router.navigate([`/Features/Details/${feature.id}`]);
-          }
-        },
+        (feature: Feature) => this.router.navigate([`/Features/Details/${feature.Id}`]),
         (error: string) => this.errors = error);
   }
 }

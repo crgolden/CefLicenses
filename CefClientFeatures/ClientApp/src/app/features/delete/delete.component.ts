@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { FeaturesService } from '../features.service';
+import { FeaturesService } from '../../services/features.service';
 import { Feature } from '../../models/feature';
 
 @Component({
@@ -24,9 +24,9 @@ export class DeleteComponent implements OnInit {
     this.model = this.route.snapshot.data['feature'] as Feature;
   }
 
-  delete() {
+  delete(): void {
     this.featuresService
-      .delete(this.model.id)
+      .delete(this.model.Id)
       .subscribe(
         () => this.router.navigate(['/Features']),
         (error: string) => this.errors = error);

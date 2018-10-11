@@ -1,31 +1,36 @@
 import { } from 'jasmine';
-import { defer } from 'rxjs';
+import { defer } from 'rxjs/index';
 
 import { FeaturesService } from './features.service';
 import { Feature } from '../models/feature';
 
-let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy, put: jasmine.Spy, delete: jasmine.Spy };
+let httpClientSpy: { get: jasmine.Spy; post: jasmine.Spy; put: jasmine.Spy; delete: jasmine.Spy };
 let featuresService: FeaturesService;
-let feature1: Feature, feature2: Feature;
+let feature1: Feature;
+let feature2: Feature;
 
-describe('featuresService', () => {
+describe('FeaturesService', () => {
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     featuresService = new FeaturesService(httpClientSpy as any);
-    feature1 = { id: '1' };
-    feature2 = { id: '2' };
+    feature1 = { Id: '1' };
+    feature2 = { Id: '2' };
   });
 
-  it('index should return a list of features', async () => {
-    const features: Array<Feature> = [feature1, feature2];
-
-    httpClientSpy.get.and.returnValue(defer(() => Promise.resolve(features)));
+  it('index should return a list of features', () => {
+    httpClientSpy.get.and.returnValue(defer(() => Promise.resolve({
+      Data: [feature1, feature2],
+      Total: 2
+    })));
 
     featuresService
       .index()
       .subscribe(
-        res => expect(res).toEqual(features, 'expected features'),
+        res => expect(res).toEqual({
+          data: [feature1, feature2],
+          total: 2
+        }, 'expected features'),
         fail);
 
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
@@ -71,7 +76,7 @@ describe('featuresService', () => {
     httpClientSpy.delete.and.returnValue(defer(() => Promise.resolve()));
 
     featuresService
-      .delete(feature1.id)
+      .delete(feature1.Id)
       .subscribe(
         res => expect(res).toBeUndefined('expected undefined'),
         fail);

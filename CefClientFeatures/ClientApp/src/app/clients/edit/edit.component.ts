@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { ClientsService } from '../clients.service';
+import { ClientsService } from '../../services/clients.service';
 import { Client } from '../../models/client';
 
 @Component({
@@ -31,7 +31,7 @@ export class EditComponent implements OnInit {
     this.clientsService
       .edit(this.model)
       .subscribe(
-        () => this.router.navigate([`/Clients/Details/${this.model.id}`]),
+        () => this.router.navigate([`/Clients/Details/${this.model.Id}`]),
         (error: string) => this.errors = error);
   }
 }

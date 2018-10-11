@@ -11,8 +11,8 @@ import { DetailsComponent } from './details.component';
 import { Client } from '../../models/client';
 
 const client: Client = {
-  id: '1',
-  name: 'Client 1'
+  Id: '1',
+  Name: 'Client 1'
 };
 let component: DetailsComponent;
 let fixture: ComponentFixture<DetailsComponent>;
@@ -20,6 +20,7 @@ let page: DetailsPage;
 let routerLinks: RouterLinkDirectiveStub[];
 let routerLinkDebugElements: DebugElement[];
 
+/* tslint:disable-next-line:component-selector */
 @Component({ selector: 'router-outlet', template: '' })
 class RouterOutletStubComponent { }
 
@@ -28,18 +29,18 @@ describe('DetailsComponent', () => {
   beforeEach(() => setup());
 
   it('should have the client', () => {
-    expect(component.model.id).toBe(client.id);
-    expect(component.model.name).toBe(client.name);
+    expect(component.model.Id).toBe(client.Id);
+    expect(component.model.Name).toBe(client.Name);
   });
 
   it('should display client details', () => {
-    expect(page.name).toBe(component.model.name);
+    expect(page.name).toBe(component.model.Name);
   });
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(3, 'should have 3 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Clients/Edit/${client.id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Clients/Delete/${client.id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Edit/${client.Id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Clients/Delete/${client.Id}`);
     expect(routerLinks[2].linkParams).toBe('/Clients');
   });
 
@@ -52,7 +53,7 @@ describe('DetailsComponent', () => {
     clientLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientLink.navigatedTo).toBe(`/Clients/Edit/${client.id}`);
+    expect(clientLink.navigatedTo).toBe(`/Clients/Edit/${client.Id}`);
   });
 
   it('can click Clients/Delete/:clientId link in template', () => {
@@ -64,7 +65,7 @@ describe('DetailsComponent', () => {
     clientLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientLink.navigatedTo).toBe(`/Clients/Delete/${client.id}`);
+    expect(clientLink.navigatedTo).toBe(`/Clients/Delete/${client.Id}`);
   });
 
   it('can click Clients link in template', () => {

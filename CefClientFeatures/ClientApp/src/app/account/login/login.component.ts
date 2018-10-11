@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AccountService } from '../account.service';
+import { AccountService } from '../../services/account.service';
 import { Login } from '../../models/login';
 
 @Component({
@@ -19,7 +19,7 @@ export class LoginComponent {
     private readonly router: Router) {
   }
 
-  login(valid: boolean) {
+  login(valid: boolean): void {
     if (!valid) {
       return;
     }
