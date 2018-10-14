@@ -1,5 +1,6 @@
 ﻿namespace CefClientFeatures
 {
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
     using Data;
     using Extensions;
@@ -36,6 +37,14 @@
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 var connectionString = _configuration.GetConnectionString("DefaultConnection");
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    options.UseSqlServer(connectionString);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    options.UseSqlite(connectionString);
+                }
                 options.UseSqlServer(connectionString);
             });
             services.AddIdentity<IdentityUser, IdentityRole>()

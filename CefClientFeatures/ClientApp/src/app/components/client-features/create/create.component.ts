@@ -57,16 +57,14 @@ export class CreateComponent implements OnInit {
     this.clientFeaturesService
       .create(this.clientFeature)
       .subscribe(
-        (clientFeature: ClientFeature) =>
-          this.router.navigate([`/ClientFeatures/Details/${clientFeature.Model1Id}/${clientFeature.Model2Id}`]),
+        (clientFeature: ClientFeature) => this.router.navigate([`/ClientFeatures/Details/${clientFeature.Model1Id}/${clientFeature.Model2Id}`]),
         (error: string) => this.error = error);
   }
 
   clientValueChange(): void {
     if (this.client.Name) {
       this.client = this.clients.filter(client => client.Name === this.client.Name)[0];
-      this.features = this.features.filter(
-        feature => !this.client.ClientFeatures.some(clientFeature => clientFeature.Model2Id === feature.Id));
+      this.features = this.features.filter(feature => !this.client.ClientFeatures.some(clientFeature => clientFeature.Model2Id === feature.Id));
       this.clientFeature.Model1Id = this.client.Id;
       this.clientFeature.Model1Name = this.client.Name;
     } else {
@@ -80,8 +78,7 @@ export class CreateComponent implements OnInit {
   featureValueChange(): void {
     if (this.feature.Name) {
       this.feature = this.features.filter(feature => feature.Name === this.feature.Name)[0];
-      this.clients = this.clients.filter(
-        client => !this.feature.ClientFeatures.some(clientFeature => clientFeature.Model1Id === client.Id));
+      this.clients = this.clients.filter(client => !this.feature.ClientFeatures.some(clientFeature => clientFeature.Model1Id === client.Id));
       this.clientFeature.Model2Id = this.feature.Id;
       this.clientFeature.Model2Name = this.feature.Name;
     } else {
