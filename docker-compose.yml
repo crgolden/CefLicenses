@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  cef_client_features_data:
+  cef_licenses_data:
     image: store/microsoft/mssql-server-linux:2017-latest
 
-  cef_client_features_app:
-    image: cef_client_features:${TAG:-latest}
+  cef_licenses_app:
+    image: cef_licenses:${TAG:-latest}
     build:
       context: .
-      dockerfile: CefClientFeatures/Dockerfile
+      dockerfile: CefLicenses/Dockerfile
     depends_on:
-      - cef_client_features_data
+      - cef_licenses_data

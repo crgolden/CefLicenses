@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  cef_client_features_data:
+  cef_licenses_data:
     environment:
       SA_PASSWORD: Pass@word
       ACCEPT_EULA: Y
       MSSQL_PID: Express
 
-  cef_client_features_app:
+  cef_licenses_app:
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
