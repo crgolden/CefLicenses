@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <h2>License Details</h2>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <hr />
+    <dl>
+      <dt>
+        Client
+      </dt>
+      <dd>
+        <a routerLink="/Clients/Details/{{clientFeature.Model1Id}}">
+          {{clientFeature.Model1Name}}
+        </a>
+      </dd>
+      <dt>
+        Feature
+      </dt>
+      <dd>
+        <a routerLink="/Features/Details/{{clientFeature.Model2Id}}">
+          {{clientFeature.Model2Name}}
+        </a>
+      </dd>
+      <dt>
+        Expiration Date
+      </dt>
+      <dd>
+        {{clientFeature.ExpirationDate | date}}
+      </dd>
+    </dl>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <hr />
+    <h4>
+      <a routerLink="/ClientFeatures/Edit/{{clientFeature.Model1Id}}/{{clientFeature.Model2Id}}">Edit</a> |
+      <a routerLink="/ClientFeatures/Delete/{{clientFeature.Model1Id}}/{{clientFeature.Model2Id}}">Delete</a> |
+      <a routerLink="/ClientFeatures">Back to List</a>
+    </h4>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>

@@ -1,6 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
-
-import { CreateComponent } from '../../../app/features/create/create.component';
+import { CreateComponent } from '../../../app/components/features/create/create.component';
 import { QueryHelpers } from '../../query-helpers';
 
 export class CreatePage {

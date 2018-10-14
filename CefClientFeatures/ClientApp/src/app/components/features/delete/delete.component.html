@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <h2>Delete Feature</h2>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <hr />
+    <dl>
+      <dt>
+        Name
+      </dt>
+      <dd>
+        {{feature.Name}}
+      </dd>
+      <dt>
+        Core
+      </dt>
+      <dd>
+        {{feature.IsCore ? 'Yes' : 'No'}}
+      </dd>
+    </dl>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>
+<div class="row">
+  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-10 col-md-6">
+    <form novalidate (ngSubmit)="delete()">
+      <div class="form-group row">
+        <div class="col-12">
+          <hr />
+          <h4>
+            <button type="submit" class="btn btn-primary">Delete</button> |
+            <a routerLink="/Features/Details/{{feature.Id}}">Back to Details</a> |
+            <a routerLink="/Features">Back to List</a>
+          </h4>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      <strong>Oops!</strong> {{error}}
+    </div>
+  </div>
+  <div class="col-sm-1 col-md-3"></div>
+</div>

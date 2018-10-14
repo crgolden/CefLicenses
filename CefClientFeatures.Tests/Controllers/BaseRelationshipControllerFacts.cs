@@ -6,6 +6,7 @@ namespace CefClientFeatures.Tests.Controllers
     using CefClientFeatures.Controllers;
     using Interfaces;
     using Models;
+    using Kendo.Mvc.UI;
     using Relationships;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -18,13 +19,23 @@ namespace CefClientFeatures.Tests.Controllers
         private Mock<ILogger<SubController>> _logger;
 
         [Fact]
-        public void Index_Ok()
+        public async Task Index_Ok()
         {
             Setup();
             var controller = new SubController(_relationshipService.Object, _logger.Object);
-            var index = controller.Index();
+            var index = await controller.Index();
             var result = Assert.IsType<OkObjectResult>(index);
             Assert.IsAssignableFrom<IEnumerable<BaseRelationship<BaseModel, BaseModel>>>(result.Value);
+        }
+
+        [Fact]
+        public async Task Index_DataSourceRequest_Ok()
+        {
+            Setup();
+            var controller = new SubController(_relationshipService.Object, _logger.Object);
+            var index = await controller.Index(new DataSourceRequest());
+            var result = Assert.IsType<OkObjectResult>(index);
+            Assert.IsAssignableFrom<DataSourceResult>(result.Value);
         }
 
         [Fact]

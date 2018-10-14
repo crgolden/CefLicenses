@@ -33,17 +33,68 @@
         {
             if (feature.IsCore)
             {
-                feature.ClientFeatures = feature.ClientFeatures.Union(Context.Set<Client>().Select(x =>
-                    new ClientFeature
+                var clientFeatures = Context.Set<Client>()
+                    .Select(x => new ClientFeature
                     {
                         Model1Id = x.Id,
-                        Model2Id = feature.Id
-                    })).ToList();
+                        Model1Name = x.Name,
+                        Model2Id = feature.Id,
+                        Model2Name = feature.Name,
+                        ExpirationDate = DateTime.Now.AddYears(1)
+                    });
+                feature.ClientFeatures = feature.ClientFeatures
+                    .Union(clientFeatures)
+                    .ToList();
             }
 
             Context.Set<Feature>().Add(feature);
             await Context.SaveChangesAsync();
             return feature;
+        }
+
+        public override async Task Edit(Feature feature)
+        {
+            if (feature.IsCore)
+            {
+                foreach (var client in Context.Set<Client>())
+                {
+                    if (!await Context.Set<ClientFeature>().AnyAsync(x =>
+                        x.Model1Id.Equals(client.Id) &&
+                        x.Model2Id.Equals(feature.Id)))
+                    {
+                        Context.Set<ClientFeature>().Add(new ClientFeature
+                        {
+                            Model1Id = client.Id,
+                            Model1Name = client.Name,
+                            Model2Id = feature.Id,
+                            Model2Name = feature.Name,
+                            ExpirationDate = DateTime.Now.AddYears(1)
+                        });
+                    }
+                }
+            }
+            else
+            {
+                var clientFeatures = await Context.Set<Feature>()
+                    .Where(x => x.Id.Equals(feature.Id))
+                    .Include(x => x.ClientFeatures)
+                    .SelectMany(x => x.ClientFeatures)
+                    .ToListAsync();
+                Context.RemoveRange(clientFeatures
+                    .Where(x => !feature.ClientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id))));
+                Context.AddRange(feature.ClientFeatures
+                    .Where(x => !clientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id)))
+                    .Select(x => new ClientFeature
+                    {
+                        Model1Id = x.Model1Id,
+                        Model1Name = x.Model1Name,
+                        Model2Id = x.Model2Id,
+                        Model2Name = x.Model2Name,
+                        ExpirationDate = DateTime.Now.AddYears(1)
+                    }));
+                Context.Entry(feature).State = EntityState.Modified;
+            }
+            await Context.SaveChangesAsync();
         }
     }
 }

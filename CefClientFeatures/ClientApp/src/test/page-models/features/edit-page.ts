@@ -1,6 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
-
-import { EditComponent } from '../../../app/features/edit/edit.component';
+import { EditComponent } from '../../../app/components/features/edit/edit.component';
 import { QueryHelpers } from '../../query-helpers';
 
 export class EditPage {

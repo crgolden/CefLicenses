@@ -54,28 +54,27 @@
         private static IEnumerable<Client> Clients =>
             new List<Client>
             {
-                new Client { Name = "Client 1", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 2", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 3", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 4", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 5", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 6", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 7", ClientFeatures = new List<ClientFeature>() },
-                new Client { Name = "Client 8", ClientFeatures = new List<ClientFeature>() }
+                new Client { Name = "Wilco", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "Valisure", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "Merck", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "Notifyd", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "Atlas", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "IIA", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "United Aqua Group", ClientFeatures = new List<ClientFeature>() },
+                new Client { Name = "AK Rail", ClientFeatures = new List<ClientFeature>() }
             };
 
         private static IEnumerable<Feature> Features =>
             new List<Feature>
             {
-                new Feature { Name = "Feature 1", IsCore = true },
-                new Feature { Name = "Feature 2" },
-                new Feature { Name = "Feature 3", IsCore = true },
-                new Feature { Name = "Feature 4" },
-                new Feature { Name = "Feature 5", IsCore = true },
-                new Feature { Name = "Feature 6" },
-                new Feature { Name = "Feature 7", IsCore = true },
-                new Feature { Name = "Feature 8" }
-
+                new Feature { Name = "Checkout", IsCore = true },
+                new Feature { Name = "Wallet" },
+                new Feature { Name = "Catalog", IsCore = true },
+                new Feature { Name = "Avalara" },
+                new Feature { Name = "PayPal", IsCore = true },
+                new Feature { Name = "USPS Shipping" },
+                new Feature { Name = "Flat Rate Shipping", IsCore = true },
+                new Feature { Name = "Subscriptions" }
             };
 
         public async Task SeedData(string adminEmail, string adminPassword)
@@ -132,7 +131,13 @@
             {
                 foreach (var feature in _context.Set<Feature>().Where(x => x.IsCore))
                 {
-                    client.ClientFeatures.Add(new ClientFeature { Model2 = feature });
+                    client.ClientFeatures.Add(new ClientFeature
+                    {
+                        Model1Name = client.Name,
+                        Model2Id = feature.Id,
+                        Model2Name = feature.Name,
+                        ExpirationDate = DateTime.Now.AddYears(1)
+                    });
                 }
             }
 

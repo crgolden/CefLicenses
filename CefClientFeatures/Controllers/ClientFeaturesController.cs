@@ -5,6 +5,7 @@
     using Interfaces;
     using Models;
     using Relationships;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -17,23 +18,23 @@
 
         [HttpGet]
         [Authorize(Policy = "ClientFeatureIndex")]
-        public override IActionResult Index()
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            return base.Index();
+            return await base.Index(request);
         }
 
         [HttpGet("{id1:guid}/{id2:guid}")]
         [Authorize(Policy = "ClientFeatureDetails")]
-        public override async Task<IActionResult> Details([FromRoute] Guid clientId, [FromRoute] Guid featureId)
+        public override async Task<IActionResult> Details([FromRoute] Guid id1, [FromRoute] Guid id2)
         {
-            return await base.Details(clientId, featureId);
+            return await base.Details(id1, id2);
         }
 
         [HttpPut("{id1:guid}/{id2:guid}")]
         [Authorize(Policy = "ClientFeatureEdit")]
-        public override async Task<IActionResult> Edit([FromRoute] Guid clientId, [FromRoute] Guid featureId, [FromBody] ClientFeature clientFeature)
+        public override async Task<IActionResult> Edit([FromRoute] Guid id1, [FromRoute] Guid id2, [FromBody] ClientFeature clientFeature)
         {
-            return await base.Edit(clientId, featureId, clientFeature);
+            return await base.Edit(id1, id2, clientFeature);
         }
 
         [HttpPost]
@@ -45,9 +46,9 @@
 
         [HttpDelete("{id1:guid}/{id2:guid}")]
         [Authorize(Policy = "ClientFeatureDelete")]
-        public override async Task<IActionResult> Delete([FromRoute] Guid clientId, [FromRoute] Guid featureId)
+        public override async Task<IActionResult> Delete([FromRoute] Guid id1, [FromRoute] Guid id2)
         {
-            return await base.Delete(clientId, featureId);
+            return await base.Delete(id1, id2);
         }
     }
 }

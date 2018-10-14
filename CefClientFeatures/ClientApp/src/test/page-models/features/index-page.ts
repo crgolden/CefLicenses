@@ -1,6 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
-
-import { IndexComponent } from '../../../app/features/index/index.component';
+import { IndexComponent } from '../../../app/components/features/index/index.component';
 import { QueryHelpers } from '../../query-helpers';
 
 export class IndexPage {

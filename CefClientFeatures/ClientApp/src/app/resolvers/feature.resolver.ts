@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/index';
-
 import { FeaturesService } from '../services/features.service';
 import { Feature } from '../models/feature';
 

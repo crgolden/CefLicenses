@@ -1,4 +1,4 @@
-export class BaseModel {
-  Id?: string;
-  Name?: string;
+export abstract class BaseModel {
+  Id: string;
+  Name: string;
 }

@@ -1,6 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
-
-import { DetailsComponent } from '../../../app/features/details/details.component';
+import { DetailsComponent } from '../../../app/components/features/details/details.component';
 import { QueryHelpers } from '../../query-helpers';
 
 export class DetailsPage {

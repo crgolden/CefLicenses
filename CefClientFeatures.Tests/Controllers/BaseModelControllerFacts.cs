@@ -18,13 +18,23 @@ namespace CefClientFeatures.Tests.Controllers
         private Mock<ILogger<SubController>> _logger;
 
         [Fact]
-        public void Index_Ok()
+        public async Task Index_Ok()
         {
             Setup();
             var controller = new SubController(_modelService.Object, _logger.Object);
-            var index = controller.Index(new DataSourceRequest());
+            var index = await controller.Index();
             var result = Assert.IsType<OkObjectResult>(index);
             Assert.IsAssignableFrom<IEnumerable<BaseModel>>(result.Value);
+        }
+
+        [Fact]
+        public async Task Index_DataSourceRequest_Ok()
+        {
+            Setup();
+            var controller = new SubController(_modelService.Object, _logger.Object);
+            var index = await controller.Index(new DataSourceRequest());
+            var result = Assert.IsType<OkObjectResult>(index);
+            Assert.IsAssignableFrom<DataSourceResult>(result.Value);
         }
 
         [Fact]

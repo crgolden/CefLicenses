@@ -15,20 +15,20 @@
     public abstract class BaseModelController<T> : ControllerBase
         where T : BaseModel
     {
-        private readonly IModelService<T> _service;
+        protected readonly IModelService<T> Service;
         private readonly ILogger<BaseModelController<T>> _logger;
 
         protected BaseModelController(IModelService<T> service, ILogger<BaseModelController<T>> logger)
         {
-            _service = service;
+            Service = service;
             _logger = logger;
         }
 
         [HttpGet]
-        public virtual IActionResult Index([DataSourceRequest] DataSourceRequest request = null)
+        public virtual async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            var models = _service.Index();
-            return request != null ? Ok(models.ToDataSourceResult(request)) : Ok(models);
+            var models = Service.Index();
+            return request != null ? Ok(await models.ToDataSourceResultAsync(request)) : Ok(models);
         }
 
         [HttpGet("{id:guid}")]
@@ -36,7 +36,7 @@
         {
             try
             {
-                var model = await _service.Details(id);
+                var model = await Service.Details(id);
                 if (model == null)
                 {
                     return NotFound(id);
@@ -61,7 +61,7 @@
 
             try
             {
-                await _service.Edit(model);
+                await Service.Edit(model);
                 return NoContent();
             }
             catch (Exception e)
@@ -76,7 +76,7 @@
         {
             try
             {
-                var created = await _service.Create(model);
+                var created = await Service.Create(model);
                 return Ok(created);
             }
             catch (Exception e)
@@ -91,7 +91,7 @@
         {
             try
             {
-                await _service.Delete(id);
+                await Service.Delete(id);
                 return NoContent();
             }
             catch (Exception e)

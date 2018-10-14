@@ -17,9 +17,10 @@
 
         [HttpGet]
         [Authorize(Policy = "ClientIndex")]
-        public override IActionResult Index([DataSourceRequest] DataSourceRequest request = null)
+        public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
-            return base.Index(request);
+            return await base.Index(request);
+
         }
 
         [HttpGet("{id:guid}")]

@@ -5,6 +5,8 @@
     using Interfaces;
     using Models;
     using Relationships;
+    using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -26,10 +28,10 @@
         }
 
         [HttpGet]
-        public virtual IActionResult Index()
+        public virtual async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             var models = _service.Index();
-            return Ok(models);
+            return request != null ? Ok(await models.ToDataSourceResultAsync(request)) : Ok(models);
         }
 
         [HttpGet("{id1:guid}/{id2:guid}")]

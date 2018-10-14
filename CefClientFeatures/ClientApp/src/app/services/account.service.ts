@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/index';
 import { map, catchError } from 'rxjs/operators/index';
-
 import { AppService } from './app.service';
-
 import { Login } from '../models/login';
 
 @Injectable()
@@ -15,8 +13,9 @@ export class AccountService extends AppService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly route: ActivatedRoute) {
-    super();
+    private readonly route: ActivatedRoute,
+    protected readonly router: Router) {
+    super(router);
     this.setReturnUrlFromQueryParams();
   }
 
@@ -42,7 +41,7 @@ export class AccountService extends AppService {
     this.isLoggedIn.emit(false);
   }
 
-  hasToken(): boolean {
+  hasToken = (): boolean => {
     const token = this.getToken();
     const expired = this.getExpiration().getTime() < Date.now();
 

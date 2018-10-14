@@ -1,6 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
-
-import { DeleteComponent } from '../../../app/features/delete/delete.component';
+import { DeleteComponent } from '../../../app/components/features/delete/delete.component';
 import { QueryHelpers } from '../../query-helpers';
 
 export class DeletePage {
