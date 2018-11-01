@@ -1,13 +1,13 @@
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
-    <h2>Licenses</h2>
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
+    <h2><fa-icon [icon]="['fal', 'user-cog']"></fa-icon> Licenses</h2>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
     <hr />
     <kendo-grid [data]="clientFeatures"
                 [pageSize]="state.take"
@@ -21,43 +21,91 @@
                 [filterable]="true"
                 [filter]="state.filter"
                 (dataStateChange)="dataStateChange($event)">
-      <kendo-grid-column field="Model1Name" title="Client">
+      <!-- columns for small devices -->
+      <kendo-grid-column field="model1Name" media="(max-width: 767px)">
+        <ng-template kendoGridHeaderTemplate>
+          <fa-icon [icon]="['fal', 'user']"></fa-icon> Client
+        </ng-template>
         <ng-template kendoGridCellTemplate let-clientFeature>
-          <a routerLink="/Clients/Details/{{clientFeature.Model1Id}}">
-            {{clientFeature.Model1Name}}
+          <div class="row">
+            <div class="col-6">
+              <fa-icon [icon]="['fal', 'user']"></fa-icon> Client
+            </div>
+            <div class="col-6">
+              <a routerLink="/Clients/Details/{{clientFeature.model1Id}}">
+                {{clientFeature.model1Name}}
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <fa-icon [icon]="['fal', 'cog']"></fa-icon> Feature
+            </div>
+            <div class="col-6">
+              <a routerLink="/Features/Details/{{clientFeature.model2Id}}">
+                {{clientFeature.model2Name}}
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <fa-icon [icon]="['fal', 'calendar']"></fa-icon> Expiration
+            </div>
+            <div class="col-6">
+              <a routerLink="/ClientFeatures/Details/{{clientFeature.model1Id}}/{{clientFeature.model2Id}}">
+                {{clientFeature.expirationDate | date}}
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+      <!-- columns for mid-size devices -->
+      <kendo-grid-column field="model1Name" media="(min-width: 768px)">
+        <ng-template kendoGridHeaderTemplate>
+          <fa-icon [icon]="['fal', 'user']"></fa-icon> Client
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-clientFeature>
+          <a routerLink="/Clients/Details/{{clientFeature.model1Id}}">
+            {{clientFeature.model1Name}}
           </a>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column field="Model2Name" title="Feature">
+      <kendo-grid-column field="model2Name" media="(min-width: 768px)">
+        <ng-template kendoGridHeaderTemplate>
+          <fa-icon [icon]="['fal', 'cog']"></fa-icon> Feature
+        </ng-template>
         <ng-template kendoGridCellTemplate let-clientFeature>
-          <a routerLink="/Features/Details/{{clientFeature.Model2Id}}">
-            {{clientFeature.Model2Name}}
+          <a routerLink="/Features/Details/{{clientFeature.model2Id}}">
+            {{clientFeature.model2Name}}
           </a>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column>
+      <kendo-grid-column field="expirationDate" media="(min-width: 992px)">
+        <ng-template kendoGridHeaderTemplate>
+          <fa-icon [icon]="['fal', 'calendar']"></fa-icon> Expiration Date
+        </ng-template>
         <ng-template kendoGridCellTemplate let-clientFeature>
-          <a routerLink="/ClientFeatures/Details/{{clientFeature.Model1Id}}/{{clientFeature.Model2Id}}">
-            Details
+          <a routerLink="/ClientFeatures/Details/{{clientFeature.model1Id}}/{{clientFeature.model2Id}}">
+            {{clientFeature.expirationDate | date}}
           </a>
         </ng-template>
       </kendo-grid-column>
     </kendo-grid>
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      <strong>Oops!</strong> {{error}}
+    </div>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
     <hr />
     <h4>
       <a routerLink="/ClientFeatures/Create">
-        Create License
+        <fa-icon [icon]="['fal', 'plus']"></fa-icon> Add
       </a>
     </h4>
   </div>
-  <div *ngIf="error" class="alert alert-danger" role="alert">
-    <strong>Oops!</strong> {{error}}
-  </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>

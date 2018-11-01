@@ -1,5 +1,6 @@
 ﻿namespace CefLicenses
 {
+    using System.Threading.Tasks;
     using Data;
     using Extensions;
     using Filters;
@@ -32,6 +33,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(_configuration);
             services.AddDatabase(_configuration);
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -40,14 +42,16 @@
             services.AddScoped<IModelService<Client>, ClientService>();
             services.AddScoped<IModelService<Feature>, FeatureService>();
             services.AddScoped<IRelationshipService<ClientFeature, Client, Feature>, ClientFeatureService>();
+            services.AddScoped<ISeedDataService, SeedDataService>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddAuthentication(_configuration.GetSection(nameof(JwtOptions)));
+            services.AddUsersOptions(_configuration);
+            services.AddAuthentication(_configuration);
             services.AddPolicies();
             services.AddMvc(setup => setup.Filters.Add(typeof(ModelStateFilter)))
                 .AddJsonOptions(setup =>
                 {
                     setup.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-                    setup.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the Angular files will be served from this directory
@@ -56,7 +60,7 @@
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-            ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            DbContext context, ISeedDataService seedDataService)
         {
             if (env.IsDevelopment())
             {
@@ -74,14 +78,18 @@
             app.UseMvcWithDefaultRoute();
             app.UseSpa(configuration =>
             {
+                if (!env.IsDevelopment()) { return; }
+
                 configuration.Options.SourcePath = "ClientApp";
-                if (env.IsDevelopment())
-                {
-                    configuration.UseAngularCliServer(npmScript: "start");
-                }
+                // configuration.UseAngularCliServer(npmScript: "start");
+                configuration.UseProxyToSpaDevelopmentServer("http://localhost:4200");
             });
-            app.SetupDatabase(_configuration, context, userManager, roleManager);
+
+            context.Database.Migrate();
+            Task.Run(seedDataService.SeedData).Wait();
+
             loggerFactory.AddAzureWebAppDiagnostics();
+            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
         }
     }
 }

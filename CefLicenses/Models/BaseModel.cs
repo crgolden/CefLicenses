@@ -5,7 +5,7 @@
 
     public abstract class BaseModel
     {
-        public virtual Guid Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
     }

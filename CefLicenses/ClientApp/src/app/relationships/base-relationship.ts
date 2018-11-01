@@ -1,6 +1,6 @@
 export abstract class BaseRelationship {
-  Model1Id: string;
-  Model1Name: string;
-  Model2Id: string;
-  Model2Name: string;
+  model1Id: string;
+  model1Name: string;
+  model2Id: string;
+  model2Name: string;
 }

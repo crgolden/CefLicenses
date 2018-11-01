@@ -6,7 +6,7 @@ import { Feature } from '../../../models/feature';
 @Component({
   selector: 'app-feature-delete',
   templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.css']
+  styleUrls: ['./delete.component.scss']
 })
 export class DeleteComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class DeleteComponent implements OnInit {
 
   delete(): void {
     this.featuresService
-      .delete(this.feature.Id)
+      .delete(this.feature.id)
       .subscribe(
         () => this.router.navigate(['/Features']),
         (error: string) => this.error = error);

@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
-    <h2>Login</h2>
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
+    <h2><fa-icon [icon]="['fal', 'sign-in']"></fa-icon> Login</h2>
     <hr />
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
     <form #f="ngForm" ngNativeValidate (ngSubmit)="login(f)">
       <div class="form-group">
         <label for="email">Email</label>
-        <input [(ngModel)]="model.Email" id="email" name="email" type="text" required class="form-control" placeholder="Email" validateEmail>
+        <input [(ngModel)]="model.email" id="email" name="email" type="text" required class="form-control" placeholder="Email" validateEmail>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input [(ngModel)]="model.Password" id="password" name="password" type="password" required class="form-control" placeholder="Password">
+        <input [(ngModel)]="model.password" id="password" name="password" type="password" required class="form-control" placeholder="Password">
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Login</button>
@@ -26,5 +26,5 @@
       <strong>Oops!</strong> {{error}}
     </div>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>

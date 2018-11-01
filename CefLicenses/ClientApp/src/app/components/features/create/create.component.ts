@@ -20,7 +20,7 @@ import { ClientFeature } from '../../../relationships/client-feature';
 @Component({
   selector: 'app-feature-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
 
@@ -37,14 +37,14 @@ export class CreateComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute) {
     this.feature = {
-      ClientFeatures: new Array<ClientFeature>()
+      clientFeatures: new Array<ClientFeature>()
     } as Feature;
     this.state = {
       skip: 0,
       take: 5,
       sort: [
         {
-          field: 'Name',
+          field: 'name',
           dir: 'asc'
         }
       ] as SortDescriptor[]
@@ -55,7 +55,10 @@ export class CreateComponent implements OnInit {
       mode: 'multiple'
     } as SelectableSettings;
     this.pageable = {
-      buttonCount: 3,
+      buttonCount: 1,
+      type: 'numeric',
+      info: false,
+      previousNext: true
     } as PagerSettings;
   }
 
@@ -68,14 +71,14 @@ export class CreateComponent implements OnInit {
     this.featuresService
       .create(this.feature)
       .subscribe(
-        (feature: Feature) => this.router.navigate([`/Features/Details/${feature.Id}`]),
+        (feature: Feature) => this.router.navigate([`/Features/Details/${feature.id}`]),
         (error: string) => this.error = error);
   }
 
   /* tslint:disable-next-line:max-line-length */
-  rowSelected = (row: RowArgs): boolean => this.feature.IsCore || this.feature.ClientFeatures.some(clientFeature => clientFeature.Model1Id === row.dataItem.Id);
+  rowSelected = (row: RowArgs): boolean => this.feature.isCore || this.feature.clientFeatures.some(clientFeature => clientFeature.model1Id === row.dataItem.id);
 
-  rowClass = (): string => this.feature.IsCore ? 'k-state-disabled' : '';
+  rowClass = (): string => this.feature.isCore ? 'k-state-disabled' : '';
 
   dataStateChange(state: DataSourceRequestState): void {
     this.state = state;
@@ -90,18 +93,18 @@ export class CreateComponent implements OnInit {
     if (event.selectedRows.length > 0) {
       const expirationDate = new Date();
       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-      event.selectedRows.forEach(row => this.feature.ClientFeatures.push({
-        Model1Id: row.dataItem.Id,
-        Model1Name: row.dataItem.Name,
-        Model2Id: this.feature.Id,
-        Model2Name: this.feature.Name,
-        ExpirationDate: expirationDate
-      }));
+      event.selectedRows.forEach(row => this.feature.clientFeatures.push({
+        model1Id: row.dataItem.id,
+        model1Name: row.dataItem.name,
+        model2Id: this.feature.id,
+        model2Name: this.feature.name,
+        expirationDate: expirationDate
+      } as ClientFeature));
     }
-    if (!this.feature.IsCore && event.deselectedRows.length > 0) {
+    if (!this.feature.isCore && event.deselectedRows.length > 0) {
       event.deselectedRows.forEach(row => {
-        const index = this.feature.ClientFeatures.findIndex(clientFeature => clientFeature.Model1Id === row.dataItem.Id);
-        this.feature.ClientFeatures.splice(index, 1);
+        const index = this.feature.clientFeatures.findIndex(clientFeature => clientFeature.model1Id === row.dataItem.id);
+        this.feature.clientFeatures.splice(index, 1);
       });
     }
   }

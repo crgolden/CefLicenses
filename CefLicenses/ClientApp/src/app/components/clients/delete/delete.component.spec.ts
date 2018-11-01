@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { DeletePage } from '../../../../test/page-models/clients/delete-page';
 import { DeleteComponent } from './delete.component';
@@ -12,9 +13,9 @@ import { ClientFeature } from '../../../relationships/client-feature';
 import { ClientsService } from '../../../services/clients.service';
 
 const client: Client = {
-  Id: '1',
-  Name: 'Client 1',
-  ClientFeatures: new Array<ClientFeature>()
+  id: '1',
+  name: 'Client 1',
+  clientFeatures: new Array<ClientFeature>()
 };
 let component: DeleteComponent;
 let fixture: ComponentFixture<DeleteComponent>;
@@ -33,12 +34,12 @@ describe('DeleteComponent', () => {
   beforeEach(() => setup());
 
   it('should have the client', () => {
-    expect(component.client.Id).toBe(client.Id);
-    expect(component.client.Name).toBe(client.Name);
+    expect(component.client.id).toBe(client.id);
+    expect(component.client.name).toBe(client.name);
   });
 
   it('should display client details', () => {
-    expect(page.name).toBe(component.client.Name);
+    expect(page.name).toBe(component.client.name);
   });
 
   it('should call delete and navigate on submit', () => {
@@ -49,7 +50,7 @@ describe('DeleteComponent', () => {
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(2, 'should have 2 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${client.Id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${client.id}`);
     expect(routerLinks[1].linkParams).toBe('/Clients');
   });
 
@@ -62,7 +63,7 @@ describe('DeleteComponent', () => {
     clientsLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientsLink.navigatedTo).toBe(`/Clients/Details/${client.Id}`);
+    expect(clientsLink.navigatedTo).toBe(`/Clients/Details/${client.id}`);
   });
 
   it('can click Clients link in template', () => {
@@ -81,6 +82,9 @@ describe('DeleteComponent', () => {
 
 function setup() {
   TestBed.configureTestingModule({
+    imports: [
+      FontAwesomeModule
+    ],
     declarations: [
       DeleteComponent,
       RouterLinkDirectiveStub,

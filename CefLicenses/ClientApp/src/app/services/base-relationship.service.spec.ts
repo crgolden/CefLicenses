@@ -20,33 +20,31 @@ describe('BaseRelationshipService', () => {
     httpBaseRelationshipSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     relationshipService = new RelationshipService(httpBaseRelationshipSpy as any, {} as any);
     relationship1 = {
-      Model1Id: '1',
-      Model1Name: 'Model 1',
-      Model2Id: '2',
-      Model2Name: 'Model 2'
+      model1Id: '1',
+      model1Name: 'Model 1',
+      model2Id: '2',
+      model2Name: 'Model 2'
     } as BaseRelationship;
   });
 
   it('index should return a list of relationships', () => {
     const relationship2 = {
-      Model1Id: '1',
-      Model1Name: 'Model 1',
-      Model2Id: '2',
-      Model2Name: 'Model 2'
+      model1Id: '1',
+      model1Name: 'Model 1',
+      model2Id: '2',
+      model2Name: 'Model 2'
     } as BaseRelationship;
-    const relationships = {
-      data: [relationship1, relationship2],
-      total: 2
+    const relationships = [relationship1, relationship2];
+    const relationshipsGridDataResult = {
+      data: relationships,
+      total: relationships.length
     } as GridDataResult;
 
-    httpBaseRelationshipSpy.get.and.returnValue(defer(() => Promise.resolve({
-      Data: [relationship1, relationship2],
-      Total: 2
-    })));
+    httpBaseRelationshipSpy.get.and.returnValue(defer(() => Promise.resolve(relationshipsGridDataResult)));
 
     relationshipService
       .index({})
-      .subscribe((result: GridDataResult) => expect(result).toEqual(relationships, 'expected relationships'));
+      .subscribe((result: GridDataResult) => expect(result).toEqual(relationshipsGridDataResult, 'expected relationships'));
 
     expect(httpBaseRelationshipSpy.get.calls.count()).toBe(1, 'one call');
   });
@@ -55,7 +53,7 @@ describe('BaseRelationshipService', () => {
     httpBaseRelationshipSpy.get.and.returnValue(defer(() => Promise.resolve(relationship1)));
 
     relationshipService
-      .details(relationship1.Model1Id, relationship1.Model2Id)
+      .details(relationship1.model1Id, relationship1.model2Id)
       .subscribe((result: BaseRelationship) => expect(result).toEqual(relationship1, 'expected relationship1'));
 
     expect(httpBaseRelationshipSpy.get.calls.count()).toBe(1, 'one call');
@@ -85,7 +83,7 @@ describe('BaseRelationshipService', () => {
     httpBaseRelationshipSpy.delete.and.returnValue(defer(() => Promise.resolve()));
 
     relationshipService
-      .delete(relationship1.Model1Id, relationship1.Model2Id)
+      .delete(relationship1.model1Id, relationship1.model2Id)
       .subscribe((result: Object) => expect(result).toBeUndefined('expected undefined'));
 
     expect(httpBaseRelationshipSpy.delete.calls.count()).toBe(1, 'one call');

@@ -14,7 +14,7 @@ import { FeaturesService } from '../../../services/features.service';
 @Component({
   selector: 'app-features-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
 
@@ -32,13 +32,16 @@ export class IndexComponent implements OnInit {
       take: 5,
       sort: [
         {
-          field: 'Name',
+          field: 'name',
           dir: 'asc'
         }
       ] as SortDescriptor[]
     } as DataSourceRequestState;
     this.pageable = {
-      buttonCount: 3
+      buttonCount: 1,
+      type: 'numeric',
+      info: false,
+      previousNext: true
     } as PagerSettings;
     this.sortable = {
       allowUnsort: false,

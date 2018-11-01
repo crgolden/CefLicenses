@@ -3,20 +3,18 @@ import { DeleteComponent } from '../../../app/components/clients/delete/delete.c
 import { QueryHelpers } from '../../query-helpers';
 
 export class DeletePage {
-    constructor(fixture: ComponentFixture<DeleteComponent>) {
-        this.fixture = fixture;
-    }
 
-    fixture: ComponentFixture<DeleteComponent>;
+  fixture: ComponentFixture<DeleteComponent>;
 
-    get elements() {
-        return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
+  constructor(fixture: ComponentFixture<DeleteComponent>) {
+    this.fixture = fixture;
+  }
+
+  get name() {
+    let name = QueryHelpers.query<HTMLDivElement>(this.fixture, '#clientName').textContent;
+    if (typeof name === 'string') {
+      name = name.trim();
     }
-    get name() {
-      let title = this.elements[0].textContent;
-        if (typeof title === 'string') {
-            title = title.trim();
-        }
-        return title;
-    }
+    return name;
+  }
 }

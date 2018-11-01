@@ -20,7 +20,7 @@ export class FeaturesResolver implements Resolve<GridDataResult> {
       take: 5,
       sort: [
         {
-          field: 'Name',
+          field: 'name',
           dir: 'asc'
         }
       ] as SortDescriptor[]

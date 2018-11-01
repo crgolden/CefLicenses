@@ -1,20 +1,21 @@
 version: '3.4'
 
 services:
-  cef_licenses_data:
-    environment:
-      SA_PASSWORD: Pass@word
-      ACCEPT_EULA: Y
-      MSSQL_PID: Express
+#  cef_licenses_data:
+#    environment:
+#      SA_PASSWORD: Pass@word
+#      ACCEPT_EULA: Y
+#      MSSQL_PID: Express
 
   cef_licenses_app:
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: https://+:443;http://+:80
       ASPNETCORE_HTTPS_PORT: 5001
+      FONT_AWESOME_TOKEN: ${FONT_AWESOME_TOKEN}
     ports:
       - "5000:80"
       - "5001:443"

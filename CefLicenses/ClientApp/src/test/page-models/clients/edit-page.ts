@@ -3,11 +3,12 @@ import { EditComponent } from '../../../app/components/clients/edit/edit.compone
 import { QueryHelpers } from '../../query-helpers';
 
 export class EditPage {
+
+  fixture: ComponentFixture<EditComponent>;
+
   constructor(fixture: ComponentFixture<EditComponent>) {
     this.fixture = fixture;
   }
-
-  fixture: ComponentFixture<EditComponent>;
 
   get inputs() {
     return QueryHelpers.queryAll<HTMLInputElement>(this.fixture, 'input');

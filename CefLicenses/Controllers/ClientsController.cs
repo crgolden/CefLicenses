@@ -11,12 +11,13 @@
 
     public class ClientsController : BaseModelController<Client>
     {
-        public ClientsController(IModelService<Client> service, ILogger<ClientsController> logger) : base(service, logger)
+        public ClientsController(IModelService<Client> service, ILogger<ClientsController> logger)
+            : base(service, logger)
         {
         }
 
         [HttpGet]
-        [Authorize(Policy = "ClientIndex")]
+        // [Authorize(Policy = "ClientIndex")]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
@@ -24,7 +25,7 @@
         }
 
         [HttpGet("{id:guid}")]
-        [Authorize(Policy = "ClientDetails")]
+        // [Authorize(Policy = "ClientDetails")]
         public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
             return await base.Details(id);

@@ -1,49 +1,55 @@
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
-    <h2>Delete Feature</h2>
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
+    <h2><fa-icon [icon]="['fal', 'cog']"></fa-icon> Delete Feature</h2>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
     <hr />
-    <dl>
-      <dt>
+    <div class="row">
+      <div class="col-6 col-md-4">
         Name
-      </dt>
-      <dd>
-        {{feature.Name}}
-      </dd>
-      <dt>
+      </div>
+      <div id="featureName" class="col-6 col-md-8">
+        <strong>{{feature.name}}</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 col-md-4">
         Core
-      </dt>
-      <dd>
-        {{feature.IsCore ? 'Yes' : 'No'}}
-      </dd>
-    </dl>
+      </div>
+      <div id="featureIsCore" class="col-6 col-md-8">
+        <strong>{{feature.isCore ? 'Yes' : 'No'}}</strong>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
     <form novalidate (ngSubmit)="delete()">
-      <div class="form-group row">
-        <div class="col-12">
-          <hr />
-          <h4>
-            <button type="submit" class="btn btn-primary">Delete</button> |
-            <a routerLink="/Features/Details/{{feature.Id}}">Back to Details</a> |
-            <a routerLink="/Features">Back to List</a>
-          </h4>
-        </div>
+      <div class="form-group">
+        <hr />
+        <h4>
+          <button type="submit" class="btn btn-primary">
+            Delete
+          </button> |
+          <a routerLink="/Features/Details/{{feature.id}}">
+            <fa-icon [icon]="['fal', 'info-square']"></fa-icon> Details
+          </a> |
+          <a routerLink="/Features">
+            <fa-icon [icon]="['fal', 'list']"></fa-icon> List
+          </a>
+        </h4>
       </div>
     </form>
     <div *ngIf="error" class="alert alert-danger" role="alert">
       <strong>Oops!</strong> {{error}}
     </div>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>

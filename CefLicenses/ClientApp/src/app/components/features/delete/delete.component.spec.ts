@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { DeletePage } from '../../../../test/page-models/features/delete-page';
 import { DeleteComponent } from './delete.component';
@@ -12,10 +13,10 @@ import { ClientFeature } from '../../../relationships/client-feature';
 import { FeaturesService } from '../../../services/features.service';
 
 const feature: Feature = {
-  Id: '1',
-  Name: 'Feature 1',
-  IsCore: false,
-  ClientFeatures: new Array<ClientFeature>()
+  id: '1',
+  name: 'Feature 1',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
 };
 let component: DeleteComponent;
 let fixture: ComponentFixture<DeleteComponent>;
@@ -34,12 +35,12 @@ describe('DeleteComponent', () => {
   beforeEach(() => setup());
 
   it('should have the feature', () => {
-    expect(component.feature.Id).toBe(feature.Id);
-    expect(component.feature.Name).toBe(feature.Name);
+    expect(component.feature.id).toBe(feature.id);
+    expect(component.feature.name).toBe(feature.name);
   });
 
   it('should display feature details', () => {
-    expect(page.name).toBe(component.feature.Name);
+    expect(page.name).toBe(component.feature.name);
   });
 
   it('should call delete and navigate on submit', () => {
@@ -50,7 +51,7 @@ describe('DeleteComponent', () => {
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(2, 'should have 2 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Features/Details/${feature.Id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Features/Details/${feature.id}`);
     expect(routerLinks[1].linkParams).toBe('/Features');
   });
 
@@ -63,7 +64,7 @@ describe('DeleteComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Features/Details/${feature.Id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Features/Details/${feature.id}`);
   });
 
   it('can click Features link in template', () => {
@@ -82,6 +83,9 @@ describe('DeleteComponent', () => {
 
 function setup() {
   TestBed.configureTestingModule({
+    imports: [
+      FontAwesomeModule
+    ],
     declarations: [
       DeleteComponent,
       RouterLinkDirectiveStub,

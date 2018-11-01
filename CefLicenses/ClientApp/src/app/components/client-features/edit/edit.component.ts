@@ -7,7 +7,7 @@ import { ClientFeature } from '../../../relationships/client-feature';
 @Component({
   selector: 'app-client-feature-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     this.clientFeature = this.route.snapshot.data['clientFeature'] as ClientFeature;
-    this.clientFeature.ExpirationDate = new Date(this.clientFeature.ExpirationDate);
+    this.clientFeature.expirationDate = new Date(this.clientFeature.expirationDate);
   }
 
   edit(form: NgForm): void {
@@ -30,7 +30,7 @@ export class EditComponent implements OnInit {
     this.clientFeaturesService
       .edit(this.clientFeature)
       .subscribe(
-        () => this.router.navigate([`/ClientFeatures/Details/${this.clientFeature.Model1Id}/${this.clientFeature.Model2Id}`]),
+        () => this.router.navigate([`/ClientFeatures/Details/${this.clientFeature.model1Id}/${this.clientFeature.model2Id}`]),
         (error: string) => this.error = error);
   }
 }

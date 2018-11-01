@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -6,11 +7,15 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefLicenses", "CefLicenses\CefLicenses.csproj", "{FF86B6EA-80BF-4608-94D2-A912D9D696F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefLicenses.Tests", "CefLicenses.Tests\CefLicenses.Tests.csproj", "{34CD3B0B-F8B6-4F96-97C8-C6007B1ACBC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefLicenses.UnitTests", "CefLicenses.UnitTests\CefLicenses.UnitTests.csproj", "{34CD3B0B-F8B6-4F96-97C8-C6007B1ACBC2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF250BCB-D496-4807-BE2D-AAD3E3ACB128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CefLicenses.FunctionalTests", "CefLicenses.FunctionalTests\CefLicenses.FunctionalTests.csproj", "{ED0F0476-83D1-4F03-8DEA-2E80C55AAB1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4E921C9-949D-4B37-A6A2-585D1FFC7A26}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\NuGet.Config = Solution Items\NuGet.Config
+		.gitignore = .gitignore
+		NuGet.Config = NuGet.Config
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -31,6 +36,10 @@ Global
 		{34CD3B0B-F8B6-4F96-97C8-C6007B1ACBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34CD3B0B-F8B6-4F96-97C8-C6007B1ACBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34CD3B0B-F8B6-4F96-97C8-C6007B1ACBC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED0F0476-83D1-4F03-8DEA-2E80C55AAB1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0F0476-83D1-4F03-8DEA-2E80C55AAB1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0F0476-83D1-4F03-8DEA-2E80C55AAB1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED0F0476-83D1-4F03-8DEA-2E80C55AAB1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

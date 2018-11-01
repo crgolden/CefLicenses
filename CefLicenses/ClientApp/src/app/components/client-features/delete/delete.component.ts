@@ -6,7 +6,7 @@ import { ClientFeature } from '../../../relationships/client-feature';
 @Component({
   selector: 'app-client-feature-delete',
   templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.css']
+  styleUrls: ['./delete.component.scss']
 })
 export class DeleteComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class DeleteComponent implements OnInit {
 
   delete(): void {
     this.clientFeaturesService
-      .delete(this.clientFeature.Model1Id, this.clientFeature.Model2Id)
+      .delete(this.clientFeature.model1Id, this.clientFeature.model2Id)
       .subscribe(
         () => this.router.navigate(['/ClientFeatures']),
         (error: string) => this.error = error);

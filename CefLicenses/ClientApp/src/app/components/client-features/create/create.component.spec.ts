@@ -7,13 +7,50 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { of } from 'rxjs';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { CreatePage } from '../../../../test/page-models/client-features/create-page';
 import { CreateComponent } from './create.component';
+import { Client } from '../../../models/client';
+import { Feature } from '../../../models/feature';
+import { ClientFeature } from '../../../relationships/client-feature';
 import { ClientFeaturesService } from '../../../services/client-features.service';
 import { ClientsService } from '../../../services/clients.service';
 import { FeaturesService } from '../../../services/features.service';
 
+const client1: Client = {
+  id: '1',
+  name: 'Client 1',
+  clientFeatures: new Array<ClientFeature>()
+};
+const client2: Client = {
+  id: '2',
+  name: 'Client 2',
+  clientFeatures: new Array<ClientFeature>()
+};
+const clients = [client1, client2];
+const clientsGridDataResult = {
+  data: clients,
+  total: clients.length
+} as GridDataResult;
+const feature1: Feature = {
+  id: '1',
+  name: 'Feature 1',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
+};
+const feature2: Feature = {
+  id: '2',
+  name: 'Feature 2',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
+};
+const features = [feature1, feature2];
+const featuresGridDataResult = {
+  data: features,
+  total: features.length
+} as GridDataResult;
 let component: CreateComponent;
 let fixture: ComponentFixture<CreateComponent>;
 let page: CreatePage;
@@ -31,8 +68,16 @@ describe('CreateComponent', () => {
   beforeEach(() => setup());
 
   it('should have a new clientFeature', () => {
-    expect(component.clientFeature.Model1Id).toBeUndefined();
-    expect(component.clientFeature.Model2Id).toBeUndefined();
+    expect(component.clientFeature.model1Id).toBeUndefined();
+    expect(component.clientFeature.model2Id).toBeUndefined();
+  });
+
+  it('should have the clients', () => {
+    expect(component.clients.length).toBe(clients.length);
+  });
+
+  it('should have the features', () => {
+    expect(component.features.length).toBe(clients.length);
   });
 
   it('should display blank inputs', () => {
@@ -75,7 +120,8 @@ function setup() {
     imports: [
       FormsModule,
       DatePickerModule,
-      DropDownsModule
+      DropDownsModule,
+      FontAwesomeModule
     ],
     declarations: [
       CreateComponent,
@@ -93,11 +139,11 @@ function setup() {
       },
       {
         provide: ClientsService,
-        useValue: jasmine.createSpyObj('ClientsService', { index: of() })
+        useValue: jasmine.createSpyObj('ClientsService', { index: of(clientsGridDataResult) })
       },
       {
         provide: FeaturesService,
-        useValue: jasmine.createSpyObj('FeaturesService', { index: of() })
+        useValue: jasmine.createSpyObj('FeaturesService', { index: of(featuresGridDataResult) })
       }
     ]
   });

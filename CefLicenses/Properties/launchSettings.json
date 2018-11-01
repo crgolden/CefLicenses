@@ -1,10 +1,12 @@
-{
+﻿{
   "profiles": {
     "CefLicenses": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORT": "5001"
+        "ASPNETCORE_HTTPS_PORT": "5001",
+        "ASPNETCORE_HOSTINGSTARTUP__KEYVAULT__CONFIGURATIONENABLED": "true",
+        "ASPNETCORE_HOSTINGSTARTUP__KEYVAULT__CONFIGURATIONVAULT": "https://CefLicensingKeyVault.vault.azure.net"
       },
       "applicationUrl": "https://localhost:5001/"
     }

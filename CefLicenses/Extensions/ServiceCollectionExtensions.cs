@@ -13,37 +13,90 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using System.Data.SqlClient;
 
     public static class ServiceCollectionExtensions
     {
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var connectionString = configuration.GetConnectionString("DefaultConnection");
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                var sqlServerOptionsSection = configuration.GetSection(nameof(SqlServerOptions));
+                if (!sqlServerOptionsSection.Exists())
                 {
-                    options.UseSqlServer(connectionString);
+                    return;
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+
+                services.AddDbContext<ApplicationDbContext>(options =>
                 {
+                    var sqlServerOptions = sqlServerOptionsSection.Get<SqlServerOptions>();
+                    var builder = new SqlConnectionStringBuilder
+                    {
+                        ConnectTimeout = sqlServerOptions.ConnectTimeout,
+                        DataSource = sqlServerOptions.DataSource,
+                        Encrypt = sqlServerOptions.Encrypt,
+                        InitialCatalog = sqlServerOptions.InitialCatalog,
+                        IntegratedSecurity = sqlServerOptions.IntegratedSecurity,
+                        MultipleActiveResultSets = sqlServerOptions.MultipleActiveResultSets,
+                        PersistSecurityInfo = sqlServerOptions.PersistSecurityInfo,
+                        TrustServerCertificate = sqlServerOptions.TrustServerCertificate,
+                    };
+                    if (!builder.IntegratedSecurity)
+                    {
+                        builder.Password = sqlServerOptions.Password;
+                        builder.UserID = sqlServerOptions.UserId;
+                    }
+
+                    options.UseSqlServer(builder.ConnectionString);
+                });
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                var sqLiteOptionsSection = configuration.GetSection(nameof(SqLiteOptions));
+                if (!sqLiteOptionsSection.Exists())
+                {
+                    return;
+                }
+
+                services.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    var sqLiteOptions = sqLiteOptionsSection.Get<SqLiteOptions>();
+                    var connectionString = $"Data Source={sqLiteOptions.Path}/{sqLiteOptions.Name}.db";
                     options.UseSqlite(connectionString);
-                }
+                });
+            }
+        }
+
+        public static void AddUsersOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            var usersOptionsSection = configuration.GetSection(nameof(UsersOptions));
+            if (!usersOptionsSection.Exists())
+            {
+                return;
+            }
+
+            services.Configure<UsersOptions>(options =>
+            {
+                var usersOptions = usersOptionsSection.Get<UsersOptions>();
+                options.Users = usersOptions.Users;
             });
         }
 
-        public static void AddAuthentication(this IServiceCollection services, IConfigurationSection jwtOptions)
+        public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var secretKey = jwtOptions[nameof(JwtOptions.SecretKey)];
-            var issuer = jwtOptions[nameof(JwtOptions.Issuer)];
-            var audience = jwtOptions[nameof(JwtOptions.Audience)];
+            var jwtOptionsSection = configuration.GetSection(nameof(JwtOptions));
+            if (!jwtOptionsSection.Exists())
+            {
+                return;
+            }
 
+            var jwtOptions = jwtOptionsSection.Get<JwtOptions>();
             services
                 .Configure<JwtOptions>(options =>
                 {
-                    options.Issuer = issuer;
-                    options.Audience = audience;
-                    options.SecretKey = secretKey;
+                    options.Issuer = jwtOptions.Issuer;
+                    options.Audience = jwtOptions.Audience;
+                    options.SecretKey = jwtOptions.SecretKey;
                 })
                 .AddAuthentication(options =>
                 {
@@ -52,16 +105,16 @@
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.Audience = audience;
-                    options.ClaimsIssuer = issuer;
+                    options.Audience = jwtOptions.Audience;
+                    options.ClaimsIssuer = jwtOptions.Issuer;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
                         ValidateAudience = true,
-                        ValidAudience = audience,
+                        ValidAudience = jwtOptions.Audience,
                         ValidateIssuer = true,
-                        ValidIssuer = issuer,
+                        ValidIssuer = jwtOptions.Issuer,
                         RequireExpirationTime = false,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero

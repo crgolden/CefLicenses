@@ -11,19 +11,20 @@
 
     public class FeaturesController : BaseModelController<Feature>
     {
-        public FeaturesController(IModelService<Feature> service, ILogger<FeaturesController> logger) : base(service, logger)
+        public FeaturesController(IModelService<Feature> service, ILogger<FeaturesController> logger)
+            : base(service, logger)
         {
         }
 
         [HttpGet]
-        [Authorize(Policy = "FeatureIndex")]
+        // [Authorize(Policy = "FeatureIndex")]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
         }
 
         [HttpGet("{id:guid}")]
-        [Authorize(Policy = "FeatureDetails")]
+        // [Authorize(Policy = "FeatureDetails")]
         public override async Task<IActionResult> Details([FromRoute] Guid id)
         {
             return await base.Details(id);

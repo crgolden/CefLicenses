@@ -3,34 +3,32 @@ import { DetailsComponent } from '../../../app/components/client-features/detail
 import { QueryHelpers } from '../../query-helpers';
 
 export class DetailsPage {
+
+  fixture: ComponentFixture<DetailsComponent>;
+
   constructor(fixture: ComponentFixture<DetailsComponent>) {
     this.fixture = fixture;
   }
 
-  fixture: ComponentFixture<DetailsComponent>;
-
-  get elements() {
-    return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
-  }
   get client() {
-    let name = this.elements[0].textContent;
+    let name = QueryHelpers.query<HTMLDivElement>(this.fixture, '#clientName').textContent;
     if (typeof name === 'string') {
       name = name.trim();
     }
     return name;
   }
   get feature() {
-    let name = this.elements[1].textContent;
-    if (typeof name === 'string') {
-      name = name.trim();
+    let feature = QueryHelpers.query<HTMLDivElement>(this.fixture, '#featureName').textContent;
+    if (typeof feature === 'string') {
+      feature = feature.trim();
     }
-    return name;
+    return feature;
   }
   get expirationDate() {
-    let name = this.elements[2].textContent;
-    if (typeof name === 'string') {
-      name = name.trim();
+    let expirationDate = QueryHelpers.query<HTMLDivElement>(this.fixture, '#expirationDate').textContent;
+    if (typeof expirationDate === 'string') {
+      expirationDate = expirationDate.trim();
     }
-    return name;
+    return expirationDate;
   }
 }

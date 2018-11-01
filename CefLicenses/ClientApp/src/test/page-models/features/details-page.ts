@@ -3,20 +3,25 @@ import { DetailsComponent } from '../../../app/components/features/details/detai
 import { QueryHelpers } from '../../query-helpers';
 
 export class DetailsPage {
+
+  fixture: ComponentFixture<DetailsComponent>;
+
   constructor(fixture: ComponentFixture<DetailsComponent>) {
     this.fixture = fixture;
   }
 
-  fixture: ComponentFixture<DetailsComponent>;
-
-  get elements() {
-    return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
-  }
   get name() {
-    let name = this.elements[0].textContent;
+    let name = QueryHelpers.query<HTMLDivElement>(this.fixture, '#featureName').textContent;
     if (typeof name === 'string') {
       name = name.trim();
     }
     return name;
+  }
+  get isCore() {
+    let isCore = QueryHelpers.query<HTMLDivElement>(this.fixture, '#featureIsCore').textContent;
+    if (typeof isCore === 'string') {
+      isCore = isCore.trim();
+    }
+    return isCore;
   }
 }

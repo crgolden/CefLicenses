@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/index';
@@ -12,7 +11,6 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { BaseModel } from '../models/base-model';
 import { AppService } from './app.service';
 
-@Injectable()
 export abstract class BaseModelService<T extends BaseModel> extends AppService {
 
   controllerName: string;
@@ -26,24 +24,22 @@ export abstract class BaseModelService<T extends BaseModel> extends AppService {
   }
 
   index(state: DataSourceRequestState): Observable<GridDataResult> {
-    const options = { headers: this.getHeaders() };
     const hasGroups = state.group && state.group.length > 0;
-    const action = `?${toDataSourceRequestString(state)}`;
+    const queryStr = `${toDataSourceRequestString(state)}`;
+
     return this.http
-      .get<any>(`/api/v1/${this.controllerName}/Index${action}`, options)
+      .get<any>(`/api/v1/${this.controllerName}/Index?${queryStr}`)
       .pipe(
-        map((res: any) => ({
-          data: hasGroups ? translateDataSourceResultGroups(res.Data) : res.Data,
-          total: res.Total
-        } as GridDataResult)),
+        map((res: GridDataResult) => ({
+          data: hasGroups ? translateDataSourceResultGroups(res.data) : res.data,
+          total: res.total
+        })),
         catchError<GridDataResult, never>(this.handleError));
   }
 
   details(id: string): Observable<T> {
-    const options = { headers: this.getHeaders() };
-
     return this.http
-      .get<T>(`/api/v1/${this.controllerName}/Details/${id}`, options)
+      .get<T>(`/api/v1/${this.controllerName}/Details/${id}`)
       .pipe(catchError<T, never>(this.handleError));
   }
 
@@ -61,7 +57,7 @@ export abstract class BaseModelService<T extends BaseModel> extends AppService {
     const options = { headers: this.getHeaders() };
 
     return this.http
-      .put(`/api/v1/${this.controllerName}/Edit/${model.Id}`, body, options)
+      .put(`/api/v1/${this.controllerName}/Edit/${model.id}`, body, options)
       .pipe(catchError<Object, never>(this.handleError));
   }
 

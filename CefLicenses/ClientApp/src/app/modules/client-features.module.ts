@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IndexComponent } from '../components/client-features/index/index.component';
 import { DetailsComponent } from '../components/client-features/details/details.component';
 import { CreateComponent } from '../components/client-features/create/create.component';
@@ -31,13 +32,13 @@ import { FeaturesResolver } from '../resolvers/features.resolver';
         path: 'ClientFeatures',
         component: IndexComponent,
         resolve: { clientFeatures: ClientFeaturesResolver },
-        canActivate: [AppCanActivate]
+        // canActivate: [AppCanActivate]
       },
       {
         path: 'ClientFeatures/Details/:id1/:id2',
         component: DetailsComponent,
         resolve: { clientFeature: ClientFeatureResolver },
-        canActivate: [AppCanActivate]
+        // canActivate: [AppCanActivate]
       },
       {
         path: 'ClientFeatures/Create',
@@ -61,7 +62,8 @@ import { FeaturesResolver } from '../resolvers/features.resolver';
     GridModule,
     DropDownsModule,
     DatePickerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ],
   declarations: [
     IndexComponent,

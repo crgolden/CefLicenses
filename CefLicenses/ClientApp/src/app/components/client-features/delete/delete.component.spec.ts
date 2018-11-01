@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { DeletePage } from '../../../../test/page-models/client-features/delete-page';
 import { DeleteComponent } from './delete.component';
@@ -11,11 +12,11 @@ import { ClientFeature } from '../../../relationships/client-feature';
 import { ClientFeaturesService } from '../../../services/client-features.service';
 
 const clientFeature: ClientFeature = {
-  Model1Id: '1',
-  Model1Name: 'Name 1',
-  Model2Id: '2',
-  Model2Name: 'Name 2',
-  ExpirationDate: new Date()
+  model1Id: '1',
+  model1Name: 'Client 1',
+  model2Id: '1',
+  model2Name: 'Feature 1',
+  expirationDate: new Date()
 };
 let component: DeleteComponent;
 let fixture: ComponentFixture<DeleteComponent>;
@@ -34,16 +35,16 @@ describe('DeleteComponent', () => {
   beforeEach(() => setup());
 
   it('should have the clientFeature', () => {
-    expect(component.clientFeature.Model1Id).toBe(clientFeature.Model1Id);
-    expect(component.clientFeature.Model2Id).toBe(clientFeature.Model2Id);
+    expect(component.clientFeature.model1Id).toBe(clientFeature.model1Id);
+    expect(component.clientFeature.model2Id).toBe(clientFeature.model2Id);
   });
 
   it('should display clientFeature details', () => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    const expirationDate = component.clientFeature.ExpirationDate.toLocaleDateString('en-US', options);
+    const expirationDate = component.clientFeature.expirationDate.toLocaleDateString('en-US', options);
 
-    expect(page.client).toBe(component.clientFeature.Model1Name);
-    expect(page.feature).toBe(component.clientFeature.Model2Name);
+    expect(page.client).toBe(component.clientFeature.model1Name);
+    expect(page.feature).toBe(component.clientFeature.model2Name);
     expect(page.expirationDate).toBe(expirationDate);
   });
 
@@ -55,9 +56,9 @@ describe('DeleteComponent', () => {
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(4, 'should have 4 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${clientFeature.Model1Id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${clientFeature.Model2Id}`);
-    expect(routerLinks[2].linkParams).toBe(`/ClientFeatures/Details/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${clientFeature.model1Id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${clientFeature.model2Id}`);
+    expect(routerLinks[2].linkParams).toBe(`/ClientFeatures/Details/${clientFeature.model1Id}/${clientFeature.model2Id}`);
     expect(routerLinks[3].linkParams).toBe('/ClientFeatures');
   });
 
@@ -70,7 +71,7 @@ describe('DeleteComponent', () => {
     clientFeaturesLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientFeaturesLink.navigatedTo).toBe(`/ClientFeatures/Details/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
+    expect(clientFeaturesLink.navigatedTo).toBe(`/ClientFeatures/Details/${clientFeature.model1Id}/${clientFeature.model2Id}`);
   });
 
   it('can click ClientFeatures link in template', () => {
@@ -89,6 +90,9 @@ describe('DeleteComponent', () => {
 
 function setup() {
   TestBed.configureTestingModule({
+    imports: [
+      FontAwesomeModule
+    ],
     declarations: [
       DeleteComponent,
       RouterLinkDirectiveStub,

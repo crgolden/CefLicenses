@@ -12,19 +12,20 @@
 
     public class ClientFeaturesController : BaseRelationshipController<ClientFeature, Client, Feature>
     {
-        public ClientFeaturesController(IRelationshipService<ClientFeature, Client, Feature> service, ILogger<ClientFeaturesController> logger) : base(service, logger)
+        public ClientFeaturesController(IRelationshipService<ClientFeature, Client, Feature> service, ILogger<ClientFeaturesController> logger)
+            : base(service, logger)
         {
         }
 
         [HttpGet]
-        [Authorize(Policy = "ClientFeatureIndex")]
+        // [Authorize(Policy = "ClientFeatureIndex")]
         public override async Task<IActionResult> Index([DataSourceRequest] DataSourceRequest request = null)
         {
             return await base.Index(request);
         }
 
         [HttpGet("{id1:guid}/{id2:guid}")]
-        [Authorize(Policy = "ClientFeatureDetails")]
+        // [Authorize(Policy = "ClientFeatureDetails")]
         public override async Task<IActionResult> Details([FromRoute] Guid id1, [FromRoute] Guid id2)
         {
             return await base.Details(id1, id2);

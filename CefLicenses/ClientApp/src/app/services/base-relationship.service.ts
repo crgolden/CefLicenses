@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/index';
@@ -9,11 +8,9 @@ import {
   DataSourceRequestState
 } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-
 import { BaseRelationship } from '../relationships/base-relationship';
 import { AppService } from './app.service';
 
-@Injectable()
 export abstract class BaseRelationshipService<T extends BaseRelationship> extends AppService {
 
   controllerName: string;
@@ -27,25 +24,22 @@ export abstract class BaseRelationshipService<T extends BaseRelationship> extend
   }
 
   index(state: DataSourceRequestState): Observable<GridDataResult> {
-    const options = { headers: this.getHeaders() };
     const hasGroups = state.group && state.group.length > 0;
     const queryStr = `${toDataSourceRequestString(state)}`;
 
     return this.http
-      .get<any>(`/api/v1/${this.controllerName}/Index?${queryStr}`, options)
+      .get<any>(`/api/v1/${this.controllerName}/Index?${queryStr}`)
       .pipe(
-        map((res: any) => ({
-          data: hasGroups ? translateDataSourceResultGroups(res.Data) : res.Data,
-          total: res.Total
-        } as GridDataResult)),
+        map((res: GridDataResult) => ({
+          data: hasGroups ? translateDataSourceResultGroups(res.data) : res.data,
+          total: res.total
+        })),
         catchError<GridDataResult, never>(this.handleError));
   }
 
   details(id1: string, id2: string): Observable<T> {
-    const options = { headers: this.getHeaders() };
-
     return this.http
-      .get<T>(`/api/v1/${this.controllerName}/Details/${id1}/${id2}`, options)
+      .get<T>(`/api/v1/${this.controllerName}/Details/${id1}/${id2}`)
       .pipe(catchError<T, never>(this.handleError));
   }
 
@@ -63,7 +57,7 @@ export abstract class BaseRelationshipService<T extends BaseRelationship> extend
     const options = { headers: this.getHeaders() };
 
     return this.http
-      .put(`/api/v1/${this.controllerName}/Edit/${relationship.Model1Id}/${relationship.Model2Id}`, body, options)
+      .put(`/api/v1/${this.controllerName}/Edit/${relationship.model1Id}/${relationship.model2Id}`, body, options)
       .pipe(catchError<Object, never>(this.handleError));
   }
 

@@ -9,7 +9,7 @@
     public interface IRelationshipService<T, T1, T2>
         where T : BaseRelationship<T1, T2>
         where T1 : BaseModel
-        where T2 : BaseModel
+        where T2: BaseModel
     {
         IEnumerable<T> Index();
         Task<T> Details(Guid id1, Guid id2);

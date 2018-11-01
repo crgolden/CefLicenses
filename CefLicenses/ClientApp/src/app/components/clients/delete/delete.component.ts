@@ -6,7 +6,7 @@ import { Client } from '../../../models/client';
 @Component({
   selector: 'app-client-delete',
   templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.css']
+  styleUrls: ['./delete.component.scss']
 })
 export class DeleteComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class DeleteComponent implements OnInit {
 
   delete(): void {
     this.clientsService
-      .delete(this.client.Id)
+      .delete(this.client.id)
       .subscribe(
         () => this.router.navigate(['/Clients']),
         (error: string) => this.error = error);

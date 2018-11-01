@@ -20,11 +20,11 @@ export class ClientFeaturesResolver implements Resolve<GridDataResult> {
       take: 5,
       sort: [
         {
-          field: 'Model1Name',
+          field: 'model1Name',
           dir: 'asc'
         },
         {
-          field: 'Model2Name',
+          field: 'model2Name',
           dir: 'asc'
         }
       ] as SortDescriptor[]

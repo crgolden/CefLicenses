@@ -20,29 +20,27 @@ describe('BaseModelService', () => {
     httpBaseModelSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     modelService = new ModelService(httpBaseModelSpy as any, {} as any);
     model1 = {
-      Id: '1',
-      Name: 'Model 1'
+      id: '1',
+      name: 'Model 1'
     } as BaseModel;
   });
 
   it('index should return a list of models', () => {
     const model2 = {
-      Id: '2',
-      Name: 'Model 2'
+      id: '2',
+      name: 'Model 2'
     } as BaseModel;
-    const models = {
-      data: [model1, model2],
-      total: 2
+    const models = [model1, model2];
+    const modelsGridDataResult = {
+      data: models,
+      total: models.length
     } as GridDataResult;
 
-    httpBaseModelSpy.get.and.returnValue(defer(() => Promise.resolve({
-      Data: [model1, model2],
-      Total: 2
-    })));
+    httpBaseModelSpy.get.and.returnValue(defer(() => Promise.resolve(modelsGridDataResult)));
 
     modelService
       .index({})
-      .subscribe((result: GridDataResult) => expect(result).toEqual(models, 'expected models'));
+      .subscribe((result: GridDataResult) => expect(result).toEqual(modelsGridDataResult, 'expected models'));
 
     expect(httpBaseModelSpy.get.calls.count()).toBe(1, 'one call');
   });
@@ -51,7 +49,7 @@ describe('BaseModelService', () => {
     httpBaseModelSpy.get.and.returnValue(defer(() => Promise.resolve(model1)));
 
     modelService
-      .details(model1.Id)
+      .details(model1.id)
       .subscribe((result: BaseModel) => expect(result).toEqual(model1, 'expected model1'));
 
     expect(httpBaseModelSpy.get.calls.count()).toBe(1, 'one call');
@@ -81,7 +79,7 @@ describe('BaseModelService', () => {
     httpBaseModelSpy.delete.and.returnValue(defer(() => Promise.resolve()));
 
     modelService
-      .delete(model1.Id)
+      .delete(model1.id)
       .subscribe((result: Object) => expect(result).toBeUndefined('expected undefined'));
 
     expect(httpBaseModelSpy.delete.calls.count()).toBe(1, 'one call');

@@ -3,17 +3,15 @@ import { DetailsComponent } from '../../../app/components/clients/details/detail
 import { QueryHelpers } from '../../query-helpers';
 
 export class DetailsPage {
+
+  fixture: ComponentFixture<DetailsComponent>;
+
   constructor(fixture: ComponentFixture<DetailsComponent>) {
     this.fixture = fixture;
   }
 
-  fixture: ComponentFixture<DetailsComponent>;
-
-  get elements() {
-    return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
-  }
   get name() {
-    let name = this.elements[0].textContent;
+    let name = QueryHelpers.query<HTMLDivElement>(this.fixture, '#clientName').textContent;
     if (typeof name === 'string') {
       name = name.trim();
     }

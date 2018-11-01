@@ -4,17 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { DetailsPage } from '../../../../test/page-models/client-features/details-page';
 import { DetailsComponent } from './details.component';
 import { ClientFeature } from '../../../relationships/client-feature';
 
 const clientFeature: ClientFeature = {
-  Model1Id: '1',
-  Model1Name: 'Name 1',
-  Model2Id: '2',
-  Model2Name: 'Name 2',
-  ExpirationDate: new Date()
+  model1Id: '1',
+  model1Name: 'Client 1',
+  model2Id: '1',
+  model2Name: 'Feature 1',
+  expirationDate: new Date()
 };
 let component: DetailsComponent;
 let fixture: ComponentFixture<DetailsComponent>;
@@ -31,26 +32,26 @@ describe('DetailsComponent', () => {
   beforeEach(() => setup());
 
   it('should have the clientFeature', () => {
-    expect(component.clientFeature.Model1Id).toBe(clientFeature.Model1Id);
-    expect(component.clientFeature.Model2Id).toBe(clientFeature.Model2Id);
+    expect(component.clientFeature.model1Id).toBe(clientFeature.model1Id);
+    expect(component.clientFeature.model2Id).toBe(clientFeature.model2Id);
   });
 
   it('should display clientFeature details', () => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    const expirationDate = component.clientFeature.ExpirationDate.toLocaleDateString('en-US', options);
+    const expirationDate = component.clientFeature.expirationDate.toLocaleDateString('en-US', options);
 
-    expect(page.client).toBe(component.clientFeature.Model1Name);
-    expect(page.feature).toBe(component.clientFeature.Model2Name);
+    expect(page.client).toBe(component.clientFeature.model1Name);
+    expect(page.feature).toBe(component.clientFeature.model2Name);
     expect(page.expirationDate).toBe(expirationDate);
   });
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(5, 'should have 5 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${clientFeature.Model1Id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${clientFeature.Model2Id}`);
-    expect(routerLinks[2].linkParams).toBe(`/ClientFeatures/Edit/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
-    expect(routerLinks[3].linkParams).toBe(`/ClientFeatures/Delete/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
-    expect(routerLinks[4].linkParams).toBe('/ClientFeatures');
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${clientFeature.model1Id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${clientFeature.model2Id}`);
+    expect(routerLinks[2].linkParams).toBe('/ClientFeatures');
+    expect(routerLinks[3].linkParams).toBe(`/ClientFeatures/Edit/${clientFeature.model1Id}/${clientFeature.model2Id}`);
+    expect(routerLinks[4].linkParams).toBe(`/ClientFeatures/Delete/${clientFeature.model1Id}/${clientFeature.model2Id}`);
   });
 
   it('can click Clients/Details/:clientFeature.Model1Id link in template', () => {
@@ -62,7 +63,7 @@ describe('DetailsComponent', () => {
     clientFeatureLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientFeatureLink.navigatedTo).toBe(`/Clients/Details/${clientFeature.Model1Id}`);
+    expect(clientFeatureLink.navigatedTo).toBe(`/Clients/Details/${clientFeature.model1Id}`);
   });
 
   it('can click Features/Details/:clientFeature.Model2Id link in template', () => {
@@ -74,22 +75,22 @@ describe('DetailsComponent', () => {
     clientFeatureLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientFeatureLink.navigatedTo).toBe(`/Features/Details/${clientFeature.Model2Id}`);
+    expect(clientFeatureLink.navigatedTo).toBe(`/Features/Details/${clientFeature.model2Id}`);
+  });
+
+  it('can click ClientFeatures link in template', () => {
+    const clientFeaturesLinkDebugElement = routerLinkDebugElements[2];
+    const clientFeaturesLink = routerLinks[2];
+
+    expect(clientFeaturesLink.navigatedTo).toBeNull('should not have navigated yet');
+
+    clientFeaturesLinkDebugElement.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(clientFeaturesLink.navigatedTo).toBe('/ClientFeatures');
   });
 
   it('can click ClientFeatures/Edit/:clientFeature.Model1Id/:clientFeature.Model2Id link in template', () => {
-    const clientFeatureLinkDebugElement = routerLinkDebugElements[2];
-    const clientFeatureLink = routerLinks[2];
-
-    expect(clientFeatureLink.navigatedTo).toBeNull('should not have navigated yet');
-
-    clientFeatureLinkDebugElement.triggerEventHandler('click', null);
-    fixture.detectChanges();
-
-    expect(clientFeatureLink.navigatedTo).toBe(`/ClientFeatures/Edit/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
-  });
-
-  it('can click ClientFeatures/Delete/:clientFeature.Model1Id/:clientFeature.Model2Id link in template', () => {
     const clientFeatureLinkDebugElement = routerLinkDebugElements[3];
     const clientFeatureLink = routerLinks[3];
 
@@ -98,19 +99,19 @@ describe('DetailsComponent', () => {
     clientFeatureLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientFeatureLink.navigatedTo).toBe(`/ClientFeatures/Delete/${clientFeature.Model1Id}/${clientFeature.Model2Id}`);
+    expect(clientFeatureLink.navigatedTo).toBe(`/ClientFeatures/Edit/${clientFeature.model1Id}/${clientFeature.model2Id}`);
   });
 
-  it('can click ClientFeatures link in template', () => {
-    const clientFeaturesLinkDebugElement = routerLinkDebugElements[4];
-    const clientFeaturesLink = routerLinks[4];
+  it('can click ClientFeatures/Delete/:clientFeature.Model1Id/:clientFeature.Model2Id link in template', () => {
+    const clientFeatureLinkDebugElement = routerLinkDebugElements[4];
+    const clientFeatureLink = routerLinks[4];
 
-    expect(clientFeaturesLink.navigatedTo).toBeNull('should not have navigated yet');
+    expect(clientFeatureLink.navigatedTo).toBeNull('should not have navigated yet');
 
-    clientFeaturesLinkDebugElement.triggerEventHandler('click', null);
+    clientFeatureLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(clientFeaturesLink.navigatedTo).toBe('/ClientFeatures');
+    expect(clientFeatureLink.navigatedTo).toBe(`/ClientFeatures/Delete/${clientFeature.model1Id}/${clientFeature.model2Id}`);
   });
 
 });
@@ -137,7 +138,8 @@ function setup() {
       }
     ],
     imports: [
-      GridModule
+      GridModule,
+      FontAwesomeModule
     ]
   });
   fixture = TestBed.createComponent(DetailsComponent);

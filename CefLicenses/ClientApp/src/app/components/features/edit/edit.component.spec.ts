@@ -6,19 +6,37 @@ import { By } from '@angular/platform-browser';
 import { FormsModule, NgForm } from '@angular/forms';
 import { of } from 'rxjs';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { EditPage } from '../../../../test/page-models/features/edit-page';
 import { EditComponent } from './edit.component';
 import { Feature } from '../../../models/feature';
+import { Client } from '../../../models/client';
 import { ClientFeature } from '../../../relationships/client-feature';
 import { FeaturesService } from '../../../services/features.service';
 import { ClientsService } from '../../../services/clients.service';
 
 const feature: Feature = {
-  Id: '1',
-  Name: 'Feature 1',
-  IsCore: false,
-  ClientFeatures: new Array<ClientFeature>()
+  id: '1',
+  name: 'Feature 1',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
+};
+const client1: Client = {
+  id: '1',
+  name: 'Client 1',
+  clientFeatures: new Array<ClientFeature>()
+};
+const client2: Client = {
+  id: '2',
+  name: 'Client 2',
+  clientFeatures: new Array<ClientFeature>()
+};
+const clients = [client1, client2];
+const clientsGridDataResult: GridDataResult = {
+  data: clients,
+  total: clients.length
 };
 let component: EditComponent;
 let fixture: ComponentFixture<EditComponent>;
@@ -37,13 +55,17 @@ describe('EditComponent', () => {
   beforeEach(() => setup());
 
   it('should have the feature', () => {
-    expect(component.feature.Id).toBe(feature.Id);
-    expect(component.feature.Name).toBe(feature.Name);
+    expect(component.feature.id).toBe(feature.id);
+    expect(component.feature.name).toBe(feature.name);
+  });
+
+  it('should have the clients', () => {
+    expect(component.clients).toEqual(clientsGridDataResult);
   });
 
   it('should display feature details', () => {
     return fixture.whenStable().then(() => {
-      expect(page.name.value).toBe(component.feature.Name);
+      expect(page.name.value).toBe(component.feature.name);
     });
   });
 
@@ -56,12 +78,14 @@ describe('EditComponent', () => {
   });
 
   it('can get RouterLinks from template', () => {
-    expect(routerLinks.length).toBe(2, 'should have 2 routerLink');
-    expect(routerLinks[0].linkParams).toBe(`/Features/Details/${feature.Id}`);
-    expect(routerLinks[1].linkParams).toBe('/Features');
+    expect(routerLinks.length).toBe(4, 'should have 4 routerLink');
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${client1.id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Clients/Details/${client2.id}`);
+    expect(routerLinks[2].linkParams).toBe(`/Features/Details/${feature.id}`);
+    expect(routerLinks[3].linkParams).toBe('/Features');
   });
 
-  it('can click Features/Details/:feature.Id link in template', () => {
+  it('can click Clients/Details/:client1.Id link in template', () => {
     const featuresLinkDebugElement = routerLinkDebugElements[0];
     const featuresLink = routerLinks[0];
 
@@ -70,12 +94,36 @@ describe('EditComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Features/Details/${feature.Id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client1.id}`);
+  });
+
+  it('can click Clients/Details/:client2.Id link in template', () => {
+    const featuresLinkDebugElement = routerLinkDebugElements[1];
+    const featuresLink = routerLinks[1];
+
+    expect(featuresLink.navigatedTo).toBeNull('should not have navigated yet');
+
+    featuresLinkDebugElement.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client2.id}`);
+  });
+
+  it('can click Features/Details/:feature.Id link in template', () => {
+    const featuresLinkDebugElement = routerLinkDebugElements[2];
+    const featuresLink = routerLinks[2];
+
+    expect(featuresLink.navigatedTo).toBeNull('should not have navigated yet');
+
+    featuresLinkDebugElement.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(featuresLink.navigatedTo).toBe(`/Features/Details/${feature.id}`);
   });
 
   it('can click Features link in template', () => {
-    const featuresLinkDebugElement = routerLinkDebugElements[1];
-    const featuresLink = routerLinks[1];
+    const featuresLinkDebugElement = routerLinkDebugElements[3];
+    const featuresLink = routerLinks[3];
 
     expect(featuresLink.navigatedTo).toBeNull('should not have navigated yet');
 
@@ -91,7 +139,8 @@ function setup() {
   TestBed.configureTestingModule({
     imports: [
       FormsModule,
-      GridModule
+      GridModule,
+      FontAwesomeModule
       ],
     declarations: [
       EditComponent,
@@ -103,7 +152,10 @@ function setup() {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
-            data: { 'feature': feature }
+            data: {
+              'feature': feature,
+              'clients': clientsGridDataResult
+            }
           }
         }
       },

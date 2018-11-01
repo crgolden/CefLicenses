@@ -1,69 +1,71 @@
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
-    <h2>Create License</h2>
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
+    <h2><fa-icon [icon]="['fal', 'user-cog']"></fa-icon> Create License</h2>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>
 <div class="row">
-  <div class="col-sm-1 col-md-3"></div>
-  <div class="col-sm-10 col-md-6">
-    <hr/>
+  <div class="col-sm-1 col-md-2"></div>
+  <div class="col-sm-10 col-md-8">
+    <hr />
     <form #f="ngForm" ngNativeValidate (ngSubmit)="create(f)">
       <div class="form-group row">
-        <div class="col-4">
-          Client
+        <div class="col-12 col-md-4">
+          <fa-icon [icon]="['fal', 'user']"></fa-icon> Client
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8">
           <kendo-autocomplete required
                               name="clientName"
-                              [(ngModel)]="client.Name"
+                              [(ngModel)]="client.name"
                               [data]="clients"
                               [placeholder]="'Enter Client Name'"
                               [valueField]="'Name'"
-                              (valueChange)="clientValueChange($event)">
+                              (valueChange)="clientValueChange()">
           </kendo-autocomplete>
         </div>
       </div>
       <div class="form-group row">
-        <div class="col-4">
-          Feature
+        <div class="col-12 col-md-4">
+          <fa-icon [icon]="['fal', 'cog']"></fa-icon> Feature
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8">
           <kendo-autocomplete required
                               name="featureName"
-                              [(ngModel)]="feature.Name"
+                              [(ngModel)]="feature.name"
                               [data]="features"
                               [placeholder]="'Enter Feature Name'"
                               [valueField]="'Name'"
-                              (valueChange)="featureValueChange($event)">
+                              (valueChange)="featureValueChange()">
           </kendo-autocomplete>
         </div>
       </div>
       <div class="form-group row">
-        <div class="col-4">
-          Expiration Date
+        <div class="col-12 col-md-4">
+          <fa-icon [icon]="['fal', 'calendar']"></fa-icon> Expiration Date
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8">
           <kendo-datepicker required
                             name="expirationDate"
-                            [(ngModel)]="clientFeature.ExpirationDate">
+                            [(ngModel)]="clientFeature.expirationDate">
           </kendo-datepicker>
         </div>
       </div>
-      <div class="form-group row">
-        <div class="col-12">
-          <hr/>
-          <h4>
-            <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Create</button> |
-            <a routerLink="/ClientFeatures">Back to List</a>
-          </h4>
-          <div *ngIf="error" class="alert alert-danger" role="alert">
-            <strong>Oops!</strong> {{error}}
-          </div>
+      <div class="form-group">
+        <hr />
+        <h4>
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+            Create
+          </button> |
+          <a routerLink="/ClientFeatures">
+            <fa-icon [icon]="['fal', 'list']"></fa-icon> List
+          </a>
+        </h4>
+        <div *ngIf="error" class="alert alert-danger" role="alert">
+          <strong>Oops!</strong> {{error}}
         </div>
       </div>
     </form>
   </div>
-  <div class="col-sm-1 col-md-3"></div>
+  <div class="col-sm-1 col-md-2"></div>
 </div>

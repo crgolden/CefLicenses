@@ -3,11 +3,12 @@ import { IndexComponent } from '../../../app/components/clients/index/index.comp
 import { QueryHelpers } from '../../query-helpers';
 
 export class IndexPage {
+
+  fixture: ComponentFixture<IndexComponent>;
+
   constructor(fixture: ComponentFixture<IndexComponent>) {
     this.fixture = fixture;
   }
-
-  fixture: ComponentFixture<IndexComponent>;
 
   get rows() {
     return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'tr');

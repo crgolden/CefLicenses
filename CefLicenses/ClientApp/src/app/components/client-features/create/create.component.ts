@@ -16,7 +16,7 @@ import { Feature } from '../../../models/feature';
 @Component({
   selector: 'app-client-feature-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
 
@@ -57,35 +57,46 @@ export class CreateComponent implements OnInit {
     this.clientFeaturesService
       .create(this.clientFeature)
       .subscribe(
-        (clientFeature: ClientFeature) => this.router.navigate([`/ClientFeatures/Details/${clientFeature.Model1Id}/${clientFeature.Model2Id}`]),
+        /* tslint:disable-next-line:max-line-length */
+        (clientFeature: ClientFeature) => this.router.navigate([`/ClientFeatures/Details/${clientFeature.model1Id}/${clientFeature.model2Id}`]),
         (error: string) => this.error = error);
   }
 
   clientValueChange(): void {
-    if (this.client.Name) {
-      this.client = this.clients.filter(client => client.Name === this.client.Name)[0];
-      this.features = this.features.filter(feature => !this.client.ClientFeatures.some(clientFeature => clientFeature.Model2Id === feature.Id));
-      this.clientFeature.Model1Id = this.client.Id;
-      this.clientFeature.Model1Name = this.client.Name;
+    let clients = new Array<Client>();
+    if (this.client.name) {
+      clients = this.clients.filter(client => client.name === this.client.name);
+    }
+    if (clients.length > 0) {
+      this.client = { ...clients[0] };
+      /* tslint:disable-next-line:max-line-length */
+      this.features = this.features.filter(feature => !this.client.clientFeatures.some(clientFeature => clientFeature.model2Id === feature.id));
+      this.clientFeature.model1Id = this.client.id;
+      this.clientFeature.model1Name = this.client.name;
     } else {
       this.client = new Client();
       this.features = this.allFeatures;
-      this.clientFeature.Model1Id = undefined;
-      this.clientFeature.Model1Name = undefined;
+      this.clientFeature.model1Id = undefined;
+      this.clientFeature.model1Name = undefined;
     }
   }
 
   featureValueChange(): void {
-    if (this.feature.Name) {
-      this.feature = this.features.filter(feature => feature.Name === this.feature.Name)[0];
-      this.clients = this.clients.filter(client => !this.feature.ClientFeatures.some(clientFeature => clientFeature.Model1Id === client.Id));
-      this.clientFeature.Model2Id = this.feature.Id;
-      this.clientFeature.Model2Name = this.feature.Name;
+    let features = new Array<Feature>();
+    if (this.feature.name) {
+      features = this.features.filter(feature => feature.name === this.feature.name);
+    }
+    if (features.length > 0) {
+      this.feature = { ...features[0] };
+      /* tslint:disable-next-line:max-line-length */
+      this.clients = this.clients.filter(client => !this.feature.clientFeatures.some(clientFeature => clientFeature.model1Id === client.id));
+      this.clientFeature.model2Id = this.feature.id;
+      this.clientFeature.model2Name = this.feature.name;
     } else {
       this.feature = new Feature();
       this.clients = this.allClients;
-      this.clientFeature.Model2Id = undefined;
-      this.clientFeature.Model2Name = undefined;
+      this.clientFeature.model2Id = undefined;
+      this.clientFeature.model2Name = undefined;
     }
   }
 

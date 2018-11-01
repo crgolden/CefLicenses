@@ -7,6 +7,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { of } from 'rxjs';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { CreatePage } from '../../../../test/page-models/features/create-page';
 import { CreateComponent } from './create.component';
@@ -16,20 +17,20 @@ import { Client } from '../../../models/client';
 import { ClientFeature } from '../../../relationships/client-feature';
 
 const client1: Client = {
-  Id: '1',
-  Name: 'Name 1',
-  ClientFeatures: new Array<ClientFeature>()
+  id: '1',
+  name: 'Client 1',
+  clientFeatures: new Array<ClientFeature>()
 };
 const client2: Client = {
-  Id: '2',
-  Name: 'Name 2',
-  ClientFeatures: new Array<ClientFeature>()
+  id: '2',
+  name: 'Client 2',
+  clientFeatures: new Array<ClientFeature>()
 };
-const clients: GridDataResult = {
-  data: [client1, client2],
-  total: 2
+const clients = [client1, client2];
+const clientsGridDataResult: GridDataResult = {
+  data: clients,
+  total: clients.length
 };
-
 let component: CreateComponent;
 let fixture: ComponentFixture<CreateComponent>;
 let page: CreatePage;
@@ -47,12 +48,12 @@ describe('CreateComponent', () => {
   beforeEach(() => setup());
 
   it('should have a new feature', () => {
-    expect(component.feature.Id).toBeUndefined();
-    expect(component.feature.Name).toBeUndefined();
+    expect(component.feature.id).toBeUndefined();
+    expect(component.feature.name).toBeUndefined();
   });
 
   it('should have the clients', () => {
-    expect(component.clients).toEqual(clients);
+    expect(component.clients).toEqual(clientsGridDataResult);
   });
 
   it('should display blank inputs', () => {
@@ -71,8 +72,8 @@ describe('CreateComponent', () => {
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(3, 'should have 3 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${client1.Id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Clients/Details/${client2.Id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Clients/Details/${client1.id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Clients/Details/${client2.id}`);
     expect(routerLinks[2].linkParams).toBe('/Features');
   });
 
@@ -85,7 +86,7 @@ describe('CreateComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client1.Id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client1.id}`);
   });
 
   it('can click Clients/Details/:client2.Id link in template', () => {
@@ -97,7 +98,7 @@ describe('CreateComponent', () => {
     featuresLinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client2.Id}`);
+    expect(featuresLink.navigatedTo).toBe(`/Clients/Details/${client2.id}`);
   });
 
   it('can click Features link in template', () => {
@@ -118,7 +119,8 @@ function setup() {
   TestBed.configureTestingModule({
     imports: [
       FormsModule,
-      GridModule
+      GridModule,
+      FontAwesomeModule
     ],
     declarations: [
       CreateComponent,
@@ -130,7 +132,7 @@ function setup() {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
-            data: { 'clients': clients }
+            data: { 'clients': clientsGridDataResult }
           }
         }
       },

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IndexComponent } from '../components/clients/index/index.component';
 import { DetailsComponent } from '../components/clients/details/details.component';
 import { CreateComponent } from '../components/clients/create/create.component';
@@ -26,13 +27,13 @@ import { FeaturesResolver } from '../resolvers/features.resolver';
         path: 'Clients',
         component: IndexComponent,
         resolve: { clients: ClientsResolver },
-        canActivate: [AppCanActivate]
+        // canActivate: [AppCanActivate]
       },
       {
         path: 'Clients/Details/:id',
         component: DetailsComponent,
         resolve: { client: ClientResolver },
-        canActivate: [AppCanActivate]
+        // canActivate: [AppCanActivate]
       },
       {
         path: 'Clients/Create',
@@ -54,7 +55,8 @@ import { FeaturesResolver } from '../resolvers/features.resolver';
       }
     ]),
     GridModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ],
   declarations: [
     IndexComponent,

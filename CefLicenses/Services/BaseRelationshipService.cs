@@ -22,36 +22,31 @@
 
         public virtual IEnumerable<T> Index()
         {
-            return Context.Set<T>()
-                .Include(x => x.Model1)
-                .Include(x => x.Model2)
-                .AsNoTracking();
+            return Context.Set<T>().AsNoTracking();
         }
 
         public virtual async Task<T> Details(Guid id1, Guid id2)
         {
-            return await Context.Set<T>().FindAsync(id1, id2);
+            return await Context.Set<T>().SingleOrDefaultAsync(x => x.Model1Id.Equals(id1) && x.Model2Id.Equals(id2));
         }
 
         public virtual async Task<T> Create(T relationship)
         {
-            Context.Set<T>().Add(relationship);
+            Context.Add(relationship);
             await Context.SaveChangesAsync();
             return relationship;
         }
 
-        public virtual async Task Edit(T relationship)
-        {
-            Context.Entry(relationship).State = EntityState.Modified;
-            await Context.SaveChangesAsync();
-        }
+        public abstract Task Edit(T relationship);
 
         public virtual async Task Delete(Guid id1, Guid id2)
         {
-            var entity = await Context.Set<T>().FindAsync(id1, id2);
+            var entity = await Context.Set<T>().SingleOrDefaultAsync(x =>
+                x.Model1Id.Equals(id1) &&
+                x.Model2Id.Equals(id2));
             if (entity != null)
             {
-                Context.Set<T>().Remove(entity);
+                Context.Remove(entity);
                 await Context.SaveChangesAsync();
             }
         }

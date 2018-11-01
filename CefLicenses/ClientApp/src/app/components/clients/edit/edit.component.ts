@@ -20,7 +20,7 @@ import { Client } from '../../../models/client';
 @Component({
   selector: 'app-client-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
 
@@ -42,7 +42,7 @@ export class EditComponent implements OnInit {
       take: 5,
       sort: [
         {
-          field: 'Name',
+          field: 'name',
           dir: 'asc'
         }
       ] as SortDescriptor[]
@@ -53,7 +53,10 @@ export class EditComponent implements OnInit {
       mode: 'multiple'
     } as SelectableSettings;
     this.pageable = {
-      buttonCount: 3
+      buttonCount: 1,
+      type: 'numeric',
+      info: false,
+      previousNext: true
     } as PagerSettings;
     this.sortable = {
       allowUnsort: false,
@@ -71,13 +74,13 @@ export class EditComponent implements OnInit {
     this.clientsService
       .edit(this.client)
       .subscribe(
-        () => this.router.navigate([`/Clients/Details/${this.client.Id}`]),
+        () => this.router.navigate([`/Clients/Details/${this.client.id}`]),
         (error: string) => this.error = error);
   }
 
-  rowSelected = (row: RowArgs): boolean => this.client.ClientFeatures.some(clientFeature => clientFeature.Model2Id === row.dataItem.Id);
+  rowSelected = (row: RowArgs): boolean => this.client.clientFeatures.some(clientFeature => clientFeature.model2Id === row.dataItem.id);
 
-  rowClass = (row: RowArgs): string => row.dataItem.IsCore ? 'k-state-disabled' : '';
+  rowClass = (row: RowArgs): string => row.dataItem.isCore ? 'k-state-disabled' : '';
 
   dataStateChange(state: DataSourceRequestState): void {
     this.state = state;
@@ -92,18 +95,18 @@ export class EditComponent implements OnInit {
     if (event.selectedRows.length > 0) {
       const expirationDate = new Date();
       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-      event.selectedRows.forEach(row => this.client.ClientFeatures.push({
-        Model1Id: this.client.Id,
-        Model1Name: this.client.Name,
-        Model2Id: row.dataItem.Id,
-        Model2Name: row.dataItem.Name,
-        ExpirationDate: expirationDate
+      event.selectedRows.forEach(row => this.client.clientFeatures.push({
+        model1Id: this.client.id,
+        model1Name: this.client.name,
+        model2Id: row.dataItem.id,
+        model2Name: row.dataItem.name,
+        expirationDate: expirationDate
       }));
     }
     if (event.deselectedRows.length > 0) {
-      event.deselectedRows.filter(row => !row.dataItem.IsCore).forEach(row => {
-        const index = this.client.ClientFeatures.findIndex(clientFeature => clientFeature.Model2Id === row.dataItem.Id);
-        this.client.ClientFeatures.splice(index, 1);
+      event.deselectedRows.filter(row => !row.dataItem.isCore).forEach(row => {
+        const index = this.client.clientFeatures.findIndex(clientFeature => clientFeature.model2Id === row.dataItem.id);
+        this.client.clientFeatures.splice(index, 1);
       });
     }
   }

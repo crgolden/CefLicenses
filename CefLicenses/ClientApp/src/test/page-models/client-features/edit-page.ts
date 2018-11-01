@@ -3,31 +3,29 @@ import { EditComponent } from '../../../app/components/client-features/edit/edit
 import { QueryHelpers } from '../../query-helpers';
 
 export class EditPage {
+
+  fixture: ComponentFixture<EditComponent>;
+
   constructor(fixture: ComponentFixture<EditComponent>) {
     this.fixture = fixture;
   }
 
-  fixture: ComponentFixture<EditComponent>;
-
   get inputs() {
     return QueryHelpers.queryAll<HTMLInputElement>(this.fixture, 'input');
   }
-  get elements() {
-    return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
-  }
   get client() {
-    let name = this.elements[0].textContent;
-    if (typeof name === 'string') {
-      name = name.trim();
+    let client = QueryHelpers.query<HTMLDivElement>(this.fixture, '#clientName').textContent;
+    if (typeof client === 'string') {
+      client = client.trim();
     }
-    return name;
+    return client;
   }
   get feature() {
-    let name = this.elements[1].textContent;
-    if (typeof name === 'string') {
-      name = name.trim();
+    let feature = QueryHelpers.query<HTMLDivElement>(this.fixture, '#featureName').textContent;
+    if (typeof feature === 'string') {
+      feature = feature.trim();
     }
-    return name;
+    return feature;
   }
   get expirationDate() {
     return this.inputs[0];

@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterLinkDirectiveStub } from '../../../../test/router-link-directive-stub';
 import { IndexPage } from '../../../../test/page-models/features/index-page';
 import { IndexComponent } from './index.component';
@@ -14,20 +15,21 @@ import { ClientFeature } from '../../../relationships/client-feature';
 import { FeaturesService } from '../../../services/features.service';
 
 const feature1: Feature = {
-  Id: '1',
-  Name: 'Feature 1',
-  IsCore: false,
-  ClientFeatures: new Array<ClientFeature>()
+  id: '1',
+  name: 'Feature 1',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
 };
 const feature2: Feature = {
-  Id: '2',
-  Name: 'Feature 2',
-  IsCore: false,
-  ClientFeatures: new Array<ClientFeature>()
+  id: '2',
+  name: 'Feature 2',
+  isCore: false,
+  clientFeatures: new Array<ClientFeature>()
 };
-const features = {
-  data: [feature1, feature2],
-  total: 2
+const features = [feature1, feature2];
+const featuresGridDataResult = {
+  data: features,
+  total: features.length
 } as GridDataResult;
 let component: IndexComponent;
 let fixture: ComponentFixture<IndexComponent>;
@@ -44,7 +46,7 @@ describe('IndexComponent', () => {
   beforeEach(() => setup());
 
   it('should have the features', () => {
-    expect(component.features.total).toBe(2);
+    expect(component.features.total).toBe(features.length);
   });
 
   it('should display features', () => {
@@ -54,14 +56,14 @@ describe('IndexComponent', () => {
     const featureRow1Name = cleanText(featureRow1.children[0].textContent);
     const featureRow2Name = cleanText(featureRow2.children[0].textContent);
 
-    expect(featureRow1Name).toBe(feature1.Name);
-    expect(featureRow2Name).toBe(feature2.Name);
+    expect(featureRow1Name).toBe(feature1.name);
+    expect(featureRow2Name).toBe(feature2.name);
   });
 
   it('can get RouterLinks from template', () => {
     expect(routerLinks.length).toBe(3, 'should have 3 routerLinks');
-    expect(routerLinks[0].linkParams).toBe(`/Features/Details/${feature1.Id}`);
-    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${feature2.Id}`);
+    expect(routerLinks[0].linkParams).toBe(`/Features/Details/${feature1.id}`);
+    expect(routerLinks[1].linkParams).toBe(`/Features/Details/${feature2.id}`);
     expect(routerLinks[2].linkParams).toBe('/Features/Create');
   });
 
@@ -74,7 +76,7 @@ describe('IndexComponent', () => {
     feature1LinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(feature1Link.navigatedTo).toBe(`/Features/Details/${feature1.Id}`);
+    expect(feature1Link.navigatedTo).toBe(`/Features/Details/${feature1.id}`);
   });
 
   it('can click Features/Details/:features[1].Id link in template', () => {
@@ -86,7 +88,7 @@ describe('IndexComponent', () => {
     feature2LinkDebugElement.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(feature2Link.navigatedTo).toBe(`/Features/Details/${feature2.Id}`);
+    expect(feature2Link.navigatedTo).toBe(`/Features/Details/${feature2.id}`);
   });
 
   it('can click Features/Create link in template', () => {
@@ -115,7 +117,7 @@ function setup() {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
-            data: { 'features': features }
+            data: { 'features': featuresGridDataResult }
           }
         }
       },
@@ -125,7 +127,8 @@ function setup() {
       }
     ],
     imports: [
-      GridModule
+      GridModule,
+      FontAwesomeModule
     ]
   });
   fixture = TestBed.createComponent(IndexComponent);

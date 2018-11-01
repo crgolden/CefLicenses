@@ -5,7 +5,7 @@ import { ClientFeature } from '../../../relationships/client-feature';
 @Component({
   selector: 'app-client-feature-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
 

@@ -16,9 +16,21 @@
             {
                 clientFeature.ExpirationDate = DateTime.Now.AddYears(1);
             }
-            Context.Set<ClientFeature>().Add(clientFeature);
+            Context.Add(clientFeature);
             await Context.SaveChangesAsync();
             return clientFeature;
+        }
+
+        public override async Task Edit(ClientFeature clientFeature)
+        {
+            var entity = await Context.Set<ClientFeature>().SingleOrDefaultAsync(x =>
+                x.Model1Id.Equals(clientFeature.Model1Id) &&
+                x.Model2Id.Equals(clientFeature.Model2Id));
+            if (entity != null)
+            {
+                entity.ExpirationDate = clientFeature.ExpirationDate;
+                await Context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ import { Client } from '../../../models/client';
 @Component({
   selector: 'app-client-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
 
@@ -32,13 +32,16 @@ export class DetailsComponent implements OnInit {
       take: 5,
       sort: [
         {
-          field: 'Model2Name',
+          field: 'model2Name',
           dir: 'asc'
         }
       ] as SortDescriptor[]
     } as DataSourceRequestState;
     this.pageable = {
-      buttonCount: 3
+      buttonCount: 1,
+      type: 'numeric',
+      info: false,
+      previousNext: true
     } as PagerSettings;
     this.sortable = {
       allowUnsort: false,
@@ -57,10 +60,10 @@ export class DetailsComponent implements OnInit {
   }
 
   private setClientFeatures() {
-    const clientFeatures = orderBy(this.client.ClientFeatures, this.state.sort);
+    const clientFeatures = orderBy(this.client.clientFeatures, this.state.sort);
     this.clientFeatures = {
       data: clientFeatures.splice(this.state.skip, this.state.take),
-      total: this.client.ClientFeatures.length
+      total: this.client.clientFeatures.length
     } as GridDataResult;
   }
 }

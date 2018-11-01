@@ -10,14 +10,8 @@
 
     public class FeatureService : BaseModelService<Feature>
     {
-        public FeatureService(DbContext context) : base(context) { }
-
-        public override IEnumerable<Feature> Index()
+        public FeatureService(DbContext context) : base(context)
         {
-            return Context
-                .Set<Feature>()
-                .Include(x => x.ClientFeatures)
-                .AsNoTracking();
         }
 
         public override async Task<Feature> Details(Guid id)
@@ -75,25 +69,31 @@
             }
             else
             {
-                var clientFeatures = await Context.Set<Feature>()
-                    .Where(x => x.Id.Equals(feature.Id))
-                    .Include(x => x.ClientFeatures)
-                    .SelectMany(x => x.ClientFeatures)
-                    .ToListAsync();
-                Context.RemoveRange(clientFeatures
-                    .Where(x => !feature.ClientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id))));
-                Context.AddRange(feature.ClientFeatures
-                    .Where(x => !clientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id)))
-                    .Select(x => new ClientFeature
-                    {
-                        Model1Id = x.Model1Id,
-                        Model1Name = x.Model1Name,
-                        Model2Id = x.Model2Id,
-                        Model2Name = x.Model2Name,
-                        ExpirationDate = DateTime.Now.AddYears(1)
-                    }));
-                Context.Entry(feature).State = EntityState.Modified;
+                var clientFeatures = Context.Set<ClientFeature>()
+                    .Where(x => x.Model2Id.Equals(feature.Id));
+                if (feature.ClientFeatures != null)
+                {
+                    Context.AddRange(feature.ClientFeatures
+                        .Where(x => !clientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id)))
+                        .Select(x => new ClientFeature
+                        {
+                            Model1Id = x.Model1Id,
+                            Model1Name = x.Model1Name,
+                            Model2Id = x.Model2Id,
+                            Model2Name = x.Model2Name,
+                            ExpirationDate = DateTime.Now.AddYears(1)
+                        }));
+                    Context.RemoveRange(clientFeatures
+                        .Where(x => !feature.ClientFeatures.Any(y => y.Model1Id.Equals(x.Model1Id))));
+                    feature.ClientFeatures.Clear();
+                }
+                else
+                {
+                    Context.RemoveRange(clientFeatures);
+                }
             }
+
+            Context.Entry(feature).State = EntityState.Modified;
             await Context.SaveChangesAsync();
         }
     }

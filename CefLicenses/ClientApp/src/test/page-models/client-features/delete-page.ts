@@ -3,34 +3,32 @@ import { DeleteComponent } from '../../../app/components/client-features/delete/
 import { QueryHelpers } from '../../query-helpers';
 
 export class DeletePage {
-    constructor(fixture: ComponentFixture<DeleteComponent>) {
-        this.fixture = fixture;
-    }
 
-    fixture: ComponentFixture<DeleteComponent>;
+  fixture: ComponentFixture<DeleteComponent>;
 
-    get elements() {
-        return QueryHelpers.queryAll<HTMLElement>(this.fixture, 'dd');
+  constructor(fixture: ComponentFixture<DeleteComponent>) {
+    this.fixture = fixture;
+  }
+
+  get client() {
+    let client = QueryHelpers.query<HTMLDivElement>(this.fixture, '#clientName').textContent;
+    if (typeof client === 'string') {
+      client = client.trim();
     }
-    get client() {
-      let title = this.elements[0].textContent;
-        if (typeof title === 'string') {
-            title = title.trim();
-        }
-        return title;
+    return client;
   }
   get feature() {
-    let title = this.elements[1].textContent;
-    if (typeof title === 'string') {
-      title = title.trim();
+    let feature = QueryHelpers.query<HTMLDivElement>(this.fixture, '#featureName').textContent;
+    if (typeof feature === 'string') {
+      feature = feature.trim();
     }
-    return title;
+    return feature;
   }
   get expirationDate() {
-    let title = this.elements[2].textContent;
-    if (typeof title === 'string') {
-      title = title.trim();
+    let expirationDate = QueryHelpers.query<HTMLDivElement>(this.fixture, '#expirationDate').textContent;
+    if (typeof expirationDate === 'string') {
+      expirationDate = expirationDate.trim();
     }
-    return title;
+    return expirationDate;
   }
 }
