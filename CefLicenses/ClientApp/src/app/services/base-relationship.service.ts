@@ -28,7 +28,7 @@ export abstract class BaseRelationshipService<T extends BaseRelationship> extend
     const queryStr = `${toDataSourceRequestString(state)}`;
 
     return this.http
-      .get<any>(`/api/v1/${this.controllerName}/Index?${queryStr}`)
+      .get<GridDataResult>(`/api/v1/${this.controllerName}/Index?${queryStr}`)
       .pipe(
         map((res: GridDataResult) => ({
           data: hasGroups ? translateDataSourceResultGroups(res.data) : res.data,

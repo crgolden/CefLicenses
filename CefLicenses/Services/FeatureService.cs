@@ -14,6 +14,14 @@
         {
         }
 
+        public override IEnumerable<Feature> Index()
+        {
+            return Context
+                .Set<Feature>()
+                .Include(x => x.ClientFeatures)
+                .AsNoTracking();
+        }
+
         public override async Task<Feature> Details(Guid id)
         {
             return await Context

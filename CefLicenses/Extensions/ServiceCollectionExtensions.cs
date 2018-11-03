@@ -1,6 +1,7 @@
 ﻿namespace CefLicenses.Extensions
 {
     using System;
+    using System.Data.SqlClient;
     using System.Runtime.InteropServices;
     using System.Text;
     using Controllers;
@@ -13,7 +14,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using System.Data.SqlClient;
 
     public static class ServiceCollectionExtensions
     {

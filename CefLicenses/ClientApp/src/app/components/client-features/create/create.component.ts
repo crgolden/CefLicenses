@@ -43,7 +43,7 @@ export class CreateComponent implements OnInit {
     const state = {
       sort: [
         {
-          field: 'Name',
+          field: 'name',
           dir: 'asc'
         }
       ] as SortDescriptor[]

@@ -14,6 +14,37 @@
     public class ClientServiceFacts
     {
         [Fact]
+        public async void Index()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("ClientService_Index")
+                .Options;
+            var list = new List<Client>
+            {
+                new Client(),
+                new Client(),
+                new Client()
+            };
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+
+            // Act
+            List<Client> clients;
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new ClientService(context);
+                clients = service.Index().ToList();
+            }
+
+            // Assert
+            Assert.Equal(list.Count, clients.Count);
+        }
+
+        [Fact]
         public async Task Details()
         {
             // Arrange

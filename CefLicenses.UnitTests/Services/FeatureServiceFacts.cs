@@ -14,6 +14,37 @@
     public class FeatureServiceFacts
     {
         [Fact]
+        public async void Index()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("FeatureService_Index")
+                .Options;
+            var list = new List<Feature>
+            {
+                new Feature(),
+                new Feature(),
+                new Feature()
+            };
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(list);
+                await context.SaveChangesAsync();
+            }
+
+            // Act
+            List<Feature> features;
+            using (var context = new ApplicationDbContext(options))
+            {
+                var service = new FeatureService(context);
+                features = service.Index().ToList();
+            }
+
+            // Assert
+            Assert.Equal(list.Count, features.Count);
+        }
+
+        [Fact]
         public async Task Details()
         {
             // Arrange
